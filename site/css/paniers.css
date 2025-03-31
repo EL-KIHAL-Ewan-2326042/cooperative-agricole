@@ -1,0 +1,307 @@
+@import url('https://fonts.googleapis.com/css2?family=Google Sans:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Google+Sans:100,300,400,500,700,900,100i,300i,400i,500i,700i,900i');
+@import url('https://db.onlinewebfonts.com/c/8dd35a5ee9eab8c7c069365ac14fed9a?family=Burbank+Big+Regular+Black');
+@import url('https://db.onlinewebfonts.com/c/771545ad3c588eace8fa2bb99d2c4e59?family=Burbank+Small+Light');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Google Sans', sans-serif;
+}
+
+body {
+    background-color: #f0f0f0;
+    color: #333;
+}
+
+/* Styles d'en-tête */
+header {
+    background-color: #4CAF50;
+    color: #fff;
+    padding: 20px 20px;
+}
+
+header h1 {
+    font-family: "Burbank Big Regular Black", sans-serif;
+    font-size: 2.5rem;
+}
+
+nav {
+    display: flex;
+}
+
+nav a {
+    margin-right: 15px;
+    color: #fff;
+    text-decoration: none;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+nav a.active {
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+nav .login-icon {
+    margin-left: auto;
+    margin-right: 0px;
+}
+
+/* Styles de pied de page */
+footer {
+    background-color: #4CAF50;
+    color: #fff;
+    text-align: center;
+    padding: 10px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    z-index: 10;
+}
+
+/* Styles spécifiques à la page panier */
+.panier-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    margin-bottom: 60px;
+}
+
+.panier-container h1 {
+    color: #4CAF50;
+    margin-bottom: 20px;
+    font-family: "Burbank Big Regular Black", sans-serif;
+}
+
+.panier-message {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 50px 0;
+    text-align: center;
+}
+
+.panier-message img {
+    max-width: 150px;
+    margin-bottom: 20px;
+}
+
+.panier-message p {
+    font-size: 22px;
+    margin-bottom: 30px;
+    color: #666;
+}
+
+.retour-boutique-btn {
+    padding: 12px 24px;
+    background: linear-gradient(347deg, #f2e004, #f7f06c);
+    border: none;
+    border-radius: 12px;
+    font-size: 18px;
+    text-decoration: none;
+    color: #425772;
+    font-weight: bold;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    font-family: 'Burbank Big Regular Black', sans-serif;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+}
+
+.retour-boutique-btn:hover {
+    background-image: linear-gradient(45deg, #f8ef66, #f8eb5e);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+#panier-contenu {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+}
+
+.panier-items {
+    flex: 1 1 60%;
+}
+
+.panier-resume {
+    flex: 1 1 30%;
+    background: #fff;
+    border-radius: 20px;
+    padding: 25px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    align-self: flex-start;
+    position: sticky;
+    top: 30px;
+}
+
+.panier-item {
+    display: flex;
+    background: #fff;
+    border-radius: 20px;
+    padding: 20px;
+    margin-bottom: 15px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    align-items: center;
+    position: relative;
+}
+
+.panier-item-img {
+    width: 100px;
+    height: 100px;
+    margin-right: 20px;
+}
+
+.panier-item-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.panier-item-info {
+    flex: 1;
+}
+
+.panier-item-info h3 {
+    margin: 0 0 5px;
+    color: #4CAF50;
+}
+
+.panier-item-type {
+    font-size: 14px;
+    color: #666;
+    margin: 0 0 5px;
+}
+
+.panier-item-prix {
+    font-weight: bold;
+}
+
+.panier-item-quantite {
+    display: flex;
+    align-items: center;
+    margin: 0 30px;
+}
+
+.quantite-btn {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: none;
+    background: #f2e004;
+    color: #425772;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.panier-item-quantite input {
+    width: 50px;
+    height: 30px;
+    text-align: center;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin: 0 10px;
+}
+
+.panier-item-total {
+    font-weight: bold;
+    font-size: 18px;
+    width: 100px;
+    text-align: right;
+}
+
+.supprimer-btn {
+    background: rgba(255, 0, 0, 0.1);
+    color: #ff0000;
+    border: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 20px;
+    margin-left: 15px;
+    transition: all 0.3s;
+}
+
+.supprimer-btn:hover {
+    background: rgba(255, 0, 0, 0.2);
+    transform: scale(1.1);
+}
+
+.panier-resume h2 {
+    margin-top: 0;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+    color: #4CAF50;
+}
+
+.panier-totaux {
+    margin: 20px 0;
+}
+
+.ligne-total {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+}
+
+.total-final {
+    font-size: 22px;
+    font-weight: bold;
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 2px solid #eee;
+}
+
+.passer-commande-btn {
+    width: 100%;
+    padding: 14px 30px;
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(347deg, #f2e004, #f7f06c);
+    font-size: 20px;
+    font-family: 'Burbank Big Regular Black', sans-serif;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    color: #425772;
+}
+
+.passer-commande-btn:hover {
+    background-image: linear-gradient(45deg, #f8ef66, #f8eb5e);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 768px) {
+    #panier-contenu {
+        flex-direction: column;
+    }
+
+    .panier-item {
+        flex-wrap: wrap;
+    }
+
+    .panier-item-total {
+        width: 100%;
+        text-align: left;
+        margin-top: 15px;
+    }
+
+    .panier-item-quantite {
+        margin: 15px 0;
+    }
+}
