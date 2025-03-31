@@ -12,18 +12,18 @@ import java.util.List;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class ProduitResource {
-    
+
     @Inject
     private ProduitService produitService;
-    
+
     @GET
     public Response getAllProduits() {
         List<Produit> produits = produitService.getAllProduits();
         return Response.ok(produits).build();
     }
-    
+
     @GET
-    @Path("/{id}")
+    @Path("/get/{id}")
     public Response getProduitById(@PathParam("id") Integer id) {
         Produit produit = produitService.getProduitById(id);
         if (produit == null) {
@@ -31,7 +31,14 @@ public class ProduitResource {
         }
         return Response.ok(produit).build();
     }
-    
+
+    @GET
+    @Path("/search")
+    public Response findProduitsByNom(@QueryParam("nom") String nom) {
+        List<Produit> produits = produitService.findProduitsByNom(nom);
+        return Response.ok(produits).build();
+    }
+
     @POST
     public Response createProduit(Produit produit) {
         Produit newProduit = produitService.createProduit(produit);
@@ -39,9 +46,9 @@ public class ProduitResource {
                 .entity(newProduit)
                 .build();
     }
-    
+
     @PUT
-    @Path("/{id}")
+    @Path("/update/{id}")
     public Response updateProduit(@PathParam("id") Integer id, Produit produit) {
         Produit updatedProduit = produitService.updateProduit(id, produit);
         if (updatedProduit == null) {
@@ -49,9 +56,9 @@ public class ProduitResource {
         }
         return Response.ok(updatedProduit).build();
     }
-    
+
     @DELETE
-    @Path("/{id}")
+    @Path("/delete/{id}")
     public Response deleteProduit(@PathParam("id") Integer id) {
         boolean deleted = produitService.deleteProduit(id);
         if (!deleted) {

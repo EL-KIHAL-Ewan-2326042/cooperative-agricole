@@ -8,6 +8,7 @@ public interface DatabaseRepository {
     <T> T findById(Class<T> entityClass, Integer id);
     <T> T save(T entity);
     <T> boolean delete(Class<T> entityClass, Integer id);
+    <T> List<T> findByField(Class<T> entityClass, String fieldName, Object value);
     Connection getConnection();
     void close();
 }
