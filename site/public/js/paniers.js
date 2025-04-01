@@ -27,27 +27,23 @@ function afficherPanier() {
         const itemHTML = `
             <div class="panier-item" data-id="${produit.id}">
                 <div class="panier-item-img">
-                    <img src="${produit.image}" alt="${produit.nom}">
-                </div>
-                <div class="panier-item-info">
-                    <h3>${produit.nom}</h3>
-                    <p class="panier-item-type">Type: ${produit.type}</p>
-                    <p class="panier-item-prix">${produit.prix} €/${produit.unite_id}</p>
+                  <img src="${produit.image}" alt="${produit.nom}">
+               </div>
+               <div class="panier-item-info">
+                   <h3>${produit.nom}</h3>
+                   <p class="panier-item-type">Type: ${produit.type}</p>
+                   <p class="panier-item-prix">${produit.prix} €/${produit.unite_id}</p>
                 </div>
                 <div class="panier-item-quantite">
-                    <button class="quantite-btn moins" onclick="modifierQuantite(${produit.id}, -1)">-</button>
-                    <input type="number" value="${produit.quantite}" min="1" max="${produit.stockDisponible}"
-                           onchange="miseAJourQuantite(${produit.id}, this.value)">
-                    <button class="quantite-btn plus" onclick="modifierQuantite(${produit.id}, 1)">+</button>
+                 <button class="quantite-btn" onclick="modifierQuantite(${produit.id}, -1)">-</button>
+                  <input type="number" min="1" max="${produit.stockDisponible}" value="${produit.quantite}" 
+                     onchange="miseAJourQuantite(${produit.id}, this.value)">
+                  <button class="quantite-btn" onclick="modifierQuantite(${produit.id}, 1)">+</button>
                 </div>
-                <div class="panier-item-total">
-                    <span>${(produit.prix * produit.quantite).toFixed(2)} €</span>
-                </div>
-                <button class="supprimer-btn" onclick="supprimerDuPanier(${produit.id})">
-                    <span>&times;</span>
-                </button>
-            </div>
-        `;
+                <div class="panier-item-total">${(produit.prix * produit.quantite).toFixed(2)} €</div>
+                 <button class="supprimer-btn" onclick="supprimerDuPanier(${produit.id})">×</button>
+                 </div>
+                `;
         panierItems.innerHTML += itemHTML;
     });
 
@@ -96,6 +92,19 @@ function supprimerDuPanier(id) {
     afficherPanier();
 }
 
+function sauvegarderPanier(panier) {
+    localStorage.setItem('panier', JSON.stringify(panier));
+}
+
+function recupererPanier() {
+    return JSON.parse(localStorage.getItem('panier')) || [];
+}
+
+function viderPanier() {
+    localStorage.removeItem('panier');
+    afficherPanier();
+}
+
 function calculerTotaux() {
     const panier = JSON.parse(localStorage.getItem('panier')) || [];
 
@@ -112,5 +121,11 @@ function calculerTotaux() {
 }
 
 document.getElementById('passer-commande').addEventListener('click', function() {
-    window.location.href = 'commande.php';
+    window.location.href = '?route=commande';
 });
+document.getElementById('vider-panier')?.addEventListener('click', function() {
+    if (confirm('Êtes-vous sûr de vouloir vider votre panier ?')) {
+        viderPanier();
+    }
+});
+

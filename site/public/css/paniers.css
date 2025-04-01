@@ -1,4 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Google Sans:wght@300;400;500;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Google+Sans:100,300,400,500,700,900,100i,300i,400i,500i,700i,900i');
 @import url('https://db.onlinewebfonts.com/c/8dd35a5ee9eab8c7c069365ac14fed9a?family=Burbank+Big+Regular+Black');
@@ -16,7 +15,6 @@ body {
     color: #333;
 }
 
-/* Styles d'en-tête */
 header {
     background-color: #4CAF50;
     color: #fff;
@@ -75,7 +73,6 @@ footer {
 .panier-container h1 {
     color: #4CAF50;
     margin-bottom: 20px;
-    font-family: "Burbank Big Regular Black", sans-serif;
 }
 
 .panier-message {
@@ -88,7 +85,8 @@ footer {
 }
 
 .panier-message img {
-    max-width: 150px;
+    max-width: 130px;
+    opacity: 0.5;
     margin-bottom: 20px;
 }
 
@@ -267,23 +265,86 @@ footer {
 
 .passer-commande-btn {
     width: 100%;
+    margin-top: 15px;
     padding: 14px 30px;
     border: none;
     border-radius: 12px;
     background: linear-gradient(347deg, #f2e004, #f7f06c);
-    font-size: 20px;
-    font-family: 'Burbank Big Regular Black', sans-serif;
-    text-transform: uppercase;
+    font-size: 24px;
     cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 6px 12px #f7f06c9e;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    color: #425772;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-family: 'Burbank Big Regular Black', sans-serif;
 }
 
 .passer-commande-btn:hover {
     background-image: linear-gradient(45deg, #f8ef66, #f8eb5e);
-    transform: translateY(-3px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    transform: translateY(-2px);
+}
+
+.passer-commande-btn span {
+    background-image: linear-gradient(0deg, #425772, #110400);
+    font-family: 'Burbank Big Regular Black', 'Google Sans', sans-serif;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: bold;
+}
+
+
+.vider-panier-btn {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 12px;
+    background: rgba(255, 0, 0, 0.1);
+    color: #ff0000;
+    font-size: 20px;
+    font-family: 'Burbank Big Regular Black', sans-serif;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+}
+
+.vider-panier-btn:hover {
+    background: rgba(255, 0, 0, 0.2);
+}
+
+.panier-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+}
+
+.voir-commandes-btn {
+    font-size: 18px;
+    letter-spacing: 0.5px;
+    text-decoration: none;
+    color: #4caf50;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    padding: 10px 20px;
+}
+
+.voir-commandes-link {
+    display: block;
+    text-align: center;
+    margin-top: 15px;
+    color: #4CAF50;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.voir-commandes-link:hover {
+    color: #109c14;
+    text-decoration: underline;
 }
 
 @media (max-width: 768px) {

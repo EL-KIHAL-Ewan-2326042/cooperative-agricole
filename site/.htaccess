@@ -1,0 +1,11 @@
+# site/.htaccess
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Afficher les erreurs pour les fichiers statiques
+    RewriteRule \.(css|js|png|jpg|gif|webp)$ - [E=DEBUG:1]
+
+    # Log des accès aux fichiers statiques
+    RewriteCond %{ENV:DEBUG} =1
+    RewriteRule .* - [L,E=REDIRECT_STATUS:200]
+</IfModule>

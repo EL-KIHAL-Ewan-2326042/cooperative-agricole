@@ -129,7 +129,7 @@ function ajouterPanier() {
     notification.classList.remove("hide");
     overlay.classList.remove("show");
 
-    const buySound = new Audio('./media/buy-sound.mp3');
+    const buySound = new Audio('/site/public/media/buy-sound.mp3');
     buySound.volume = 0.5;
     buySound.play().catch(e => console.log("Erreur de lecture audio:", e));
 
