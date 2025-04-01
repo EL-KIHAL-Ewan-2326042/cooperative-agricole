@@ -21,6 +21,7 @@ public class MariaDbRepository implements DatabaseRepository {
 
     public MariaDbRepository(String url, String user, String password) throws SQLException {
         connection = DriverManager.getConnection(url, user, password);
+        connection.setAutoCommit(true);
     }
 
     @Override
@@ -66,8 +67,141 @@ public class MariaDbRepository implements DatabaseRepository {
 
     @Override
     public <T> T save(T entity) {
-        // Implémentation à adapter selon vos besoins
+        try {
+            Class<?> entityClass = entity.getClass();
+            String tableName = entityClass.getSimpleName().toLowerCase();
+            Integer id = getEntityId(entity);
+
+            if (id == null || id == 0) {
+                // INSERT
+                return insertEntity(entity, tableName);
+            } else {
+                // UPDATE
+                return updateEntity(entity, tableName, id);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return entity;
+        }
+    }
+
+    private <T> T updateEntity(T entity, String tableName, Integer id) throws Exception {
+        Map<String, Object> fields = getEntityFields(entity);
+        fields.remove("id"); // L'ID ne doit pas être modifié
+
+        StringBuilder setClause = new StringBuilder();
+        List<Object> values = new ArrayList<>();
+
+        for (Map.Entry<String, Object> entry : fields.entrySet()) {
+            if (values.size() > 0) {
+                setClause.append(", ");
+            }
+            setClause.append(entry.getKey()).append(" = ?");
+            values.add(entry.getValue());
+        }
+
+        // Ajouter l'ID pour la clause WHERE
+        values.add(id);
+
+        String sql = "UPDATE " + tableName + " SET " + setClause + " WHERE id = ?";
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            for (int i = 0; i < values.size(); i++) {
+                stmt.setObject(i + 1, values.get(i));
+            }
+
+            int affectedRows = stmt.executeUpdate();
+            if (affectedRows == 0) {
+                throw new SQLException("La mise à jour a échoué, aucune ligne affectée.");
+            }
+        }
+
         return entity;
+    }
+
+    private <T> Integer getEntityId(T entity) {
+        try {
+            Field idField = findField(entity.getClass(), "id");
+            if (idField != null) {
+                idField.setAccessible(true);
+                return (Integer) idField.get(entity);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private <T> T insertEntity(T entity, String tableName) throws Exception {
+        Map<String, Object> fields = getEntityFields(entity);
+        fields.remove("id"); // Ne pas inclure l'ID dans l'insertion
+
+        StringBuilder columns = new StringBuilder();
+        StringBuilder placeholders = new StringBuilder();
+        List<Object> values = new ArrayList<>();
+
+        for (Map.Entry<String, Object> entry : fields.entrySet()) {
+            if (values.size() > 0) {
+                columns.append(", ");
+                placeholders.append(", ");
+            }
+            columns.append(entry.getKey());
+            placeholders.append("?");
+            values.add(entry.getValue());
+        }
+
+        String sql = "INSERT INTO " + tableName + " (" + columns + ") VALUES (" + placeholders + ")";
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            for (int i = 0; i < values.size(); i++) {
+                stmt.setObject(i + 1, values.get(i));
+            }
+
+            int affectedRows = stmt.executeUpdate();
+            if (affectedRows == 0) {
+                throw new SQLException("La création a échoué, aucune ligne affectée.");
+            }
+
+            try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    // Définir l'ID généré
+                    Field idField = findField(entity.getClass(), "id");
+                    if (idField != null) {
+                        idField.setAccessible(true);
+                        idField.set(entity, generatedKeys.getInt(1));
+                    }
+                }
+            }
+        }
+
+        return entity;
+    }
+
+    private <T> Map<String, Object> getEntityFields(T entity) throws Exception {
+        Map<String, Object> fields = new HashMap<>();
+        Class<?> clazz = entity.getClass();
+
+        String tableName = clazz.getSimpleName().toLowerCase();
+        System.out.println("DEBUG - Table: " + tableName + ", Entity: " + entity);
+
+        for (Field field : clazz.getDeclaredFields()) {
+            field.setAccessible(true);
+            String fieldName = field.getName();
+            Object fieldValue = field.get(entity);
+
+            if (fieldValue != null) {
+                if (fieldValue instanceof Unite) {
+                    // Cas spécial pour les relations
+                    Unite unite = (Unite) fieldValue;
+                    fields.put("unite_id", unite.getId());
+                    System.out.println("DEBUG - Field: unite_id, Value: " + unite.getId());
+                } else {
+                    fields.put(fieldName, fieldValue);
+                }
+            }
+        }
+
+        return fields;
     }
 
     @Override
@@ -142,11 +276,44 @@ public class MariaDbRepository implements DatabaseRepository {
             }
         }
 
+        if (entity instanceof Produit && ((Produit)entity).getTypeId() != null) {
+            loadTypeName((Produit)entity);
+        }
+
         return entity;
     }
 
-    private <T> void setFieldValue(T entity, String fieldName, Object value) {
+    private void loadTypeName(Produit produit) {
         try {
+            TypeProduit typeProduit = findById(TypeProduit.class, produit.getTypeId());
+            if (typeProduit != null) {
+                produit.setTypeName(typeProduit.getNom());
+                produit.setType(typeProduit);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private <T> void setFieldValue(T entity, String columnName, Object value) {
+        try {
+            // Conversion snake_case vers camelCase
+            String fieldName = columnName;
+            if (columnName.contains("_")) {
+                fieldName = convertToCamelCase(columnName);
+            }
+
+            // Cas spéciaux
+            if (columnName.equals("unite_id") && entity instanceof Produit) {
+                Produit produit = (Produit) entity;
+                Unite unite = findById(Unite.class, (Integer) value);
+                produit.setUnite(unite);
+                return;
+            } else if (columnName.equals("type_id") && entity instanceof Produit) {
+                ((Produit) entity).setTypeId((Integer) value);
+                return;
+            }
+
             Field field = findField(entity.getClass(), fieldName);
             if (field != null) {
                 field.setAccessible(true);
@@ -155,6 +322,22 @@ public class MariaDbRepository implements DatabaseRepository {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private String convertToCamelCase(String snakeCase) {
+        StringBuilder result = new StringBuilder();
+        boolean nextUpper = false;
+
+        for (char c : snakeCase.toCharArray()) {
+            if (c == '_') {
+                nextUpper = true;
+            } else {
+                result.append(nextUpper ? Character.toUpperCase(c) : c);
+                nextUpper = false;
+            }
+        }
+
+        return result.toString();
     }
 
     private Object convertValueToFieldType(Class<?> fieldType, Object value) {

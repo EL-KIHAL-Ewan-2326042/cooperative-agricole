@@ -55,29 +55,35 @@ public class ProduitResource {
     }
 
     @POST
-    @Path("/create/{nom}/{type}/{prix}/{quantite}/{uniteId}")
+    @Path("/create")
     @Produces(MediaType.APPLICATION_JSON)
     public Response createProduitWithPath(
-            @PathParam("nom") String nom,
-            @PathParam("type") String type,
-            @PathParam("prix") BigDecimal prix,
-            @PathParam("quantite") BigDecimal quantite,
-            @PathParam("uniteId") Integer uniteId) {
+            @QueryParam("nom") String nom,
+            @QueryParam("typeId") Integer typeId,
+            @QueryParam("prix") BigDecimal prix,
+            @QueryParam("quantite") Integer quantite,
+            @QueryParam("uniteId") Integer uniteId) {
 
-        Produit produit = new Produit();
-        produit.setNom(nom);
-        produit.setType(type);
-        produit.setPrix(prix);
-        produit.setQuantite(quantite);
-
-        // Get unite by ID
-        Unite unite = uniteService.getUniteById(uniteId);
-        if (unite == null) {
+        // Vérification des paramètres obligatoires
+        if (nom == null || typeId == null || prix == null || quantite == null || uniteId == null) {
             return Response.status(Response.Status.BAD_REQUEST)
-                    .entity("Invalid unite ID: " + uniteId)
+                    .entity("Tous les paramètres sont obligatoires")
                     .build();
         }
 
+        Produit produit = new Produit();
+        produit.setNom(nom);
+        produit.setTypeId(typeId);
+        produit.setPrix(prix);
+        produit.setQuantite(quantite);
+
+        // Récupération de l'unité par ID
+        Unite unite = uniteService.getUniteById(uniteId);
+        if (unite == null) {
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity("ID d'unité invalide: " + uniteId)
+                    .build();
+        }
         produit.setUnite(unite);
 
         Produit newProduit = produitService.createProduit(produit);
