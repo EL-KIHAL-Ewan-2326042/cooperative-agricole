@@ -1,6 +1,8 @@
 package cooperative.produits_utilisateurs.service;
 
 import cooperative.produits_utilisateurs.model.Produit;
+import cooperative.produits_utilisateurs.model.Type;
+import cooperative.produits_utilisateurs.model.Unite;
 import cooperative.produits_utilisateurs.repository.ProduitRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -14,21 +16,66 @@ public class ProduitService {
     @Inject
     private ProduitRepository produitRepository;
 
+    @Inject
+    private TypeService typeService;
+
+    @Inject
+    private UniteService uniteService;
+
     public List<Produit> getAllProduits() {
-        return produitRepository.findAll();
+        List<Produit> produits = produitRepository.findAll();
+        for (Produit produit : produits) {
+            enrichProduit(produit);
+        }
+        return produits;
     }
 
     public Produit getProduitById(Integer id) {
-        return produitRepository.findById(id);
+        Produit produit = produitRepository.findById(id);
+        if (produit == null) {
+            return null;
+        }
+
+        enrichProduit(produit);
+        return produit;
+    }
+
+    private void enrichProduit(Produit produit) {
+        // Enrichir avec les informations de type
+        if (produit.getTypeId() != null) {
+            Type type = typeService.getTypeById(produit.getTypeId());
+            if (type != null) {
+                produit.setType(type);
+            }
+        }
+
+        // Enrichir avec les informations d'unité
+        if (produit.getUnite() != null && produit.getUnite().getId() != null) {
+            Unite unite = uniteService.getUniteById(produit.getUnite().getId());
+            if (unite != null) {
+                produit.setUnite(unite);
+            }
+        }
     }
 
     public List<Produit> findProduitsByNom(String nom) {
-        return produitRepository.findByNom(nom);
+        List<Produit> produits = produitRepository.findByNom(nom);
+        for (Produit produit : produits) {
+            enrichProduit(produit);
+        }
+        return produits;
     }
 
     public Produit createProduit(Produit produit) {
         produit.setDateMiseAJour(LocalDateTime.now());
-        return produitRepository.save(produit);
+
+        // Sauvegarder d'abord le produit
+        Produit savedProduit = produitRepository.save(produit);
+
+        // Enrichir avec les informations complètes
+        enrichProduit(savedProduit);
+
+        return savedProduit;
     }
 
     public Produit updateProduit(Integer id, Produit produit) {
@@ -39,7 +86,14 @@ public class ProduitService {
 
         produit.setId(id);
         produit.setDateMiseAJour(LocalDateTime.now());
-        return produitRepository.save(produit);
+
+        // Sauvegarder les modifications
+        Produit updatedProduit = produitRepository.save(produit);
+
+        // Enrichir avec les informations complètes
+        enrichProduit(updatedProduit);
+
+        return updatedProduit;
     }
 
     public boolean deleteProduit(Integer id) {

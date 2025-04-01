@@ -6,6 +6,7 @@ import java.util.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import cooperative.produits_utilisateurs.model.*;
+import cooperative.produits_utilisateurs.model.Type;
 
 public class MariaDbRepository implements DatabaseRepository {
     private Connection connection;
@@ -138,6 +139,22 @@ public class MariaDbRepository implements DatabaseRepository {
             Object value = rs.getObject(i);
 
             if (value != null) {
+                // Gestion spécifique pour les relations type_id et unite_id
+                if (entityClass == Produit.class) {
+                    if (columnName.equals("type_id")) {
+                        Type type = new Type();
+                        type.setId((Integer) value);
+                        setFieldValue(entity, "type", type);
+                        continue;
+                    } else if (columnName.equals("unite_id")) {
+                        Unite unite = new Unite();
+                        unite.setId((Integer) value);
+                        setFieldValue(entity, "unite", unite);
+                        continue;
+                    }
+                }
+
+                // Traitement standard pour les autres champs
                 setFieldValue(entity, columnName, value);
             }
         }
