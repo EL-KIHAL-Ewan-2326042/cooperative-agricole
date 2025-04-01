@@ -10,6 +10,15 @@ import cooperative.produits_utilisateurs.model.*;
 public class MariaDbRepository implements DatabaseRepository {
     private Connection connection;
 
+    static {
+        try {
+            Class.forName("org.mariadb.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            System.err.println("Erreur de chargement du driver MariaDB: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
     public MariaDbRepository(String url, String user, String password) throws SQLException {
         connection = DriverManager.getConnection(url, user, password);
     }

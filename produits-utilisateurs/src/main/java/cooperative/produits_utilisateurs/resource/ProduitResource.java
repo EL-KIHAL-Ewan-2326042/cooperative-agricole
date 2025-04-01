@@ -23,7 +23,7 @@ public class ProduitResource {
     }
 
     @GET
-    @Path("/get/{id}")
+    @Path("/{id}")
     public Response getProduitById(@PathParam("id") Integer id) {
         Produit produit = produitService.getProduitById(id);
         if (produit == null) {
@@ -48,7 +48,7 @@ public class ProduitResource {
     }
 
     @PUT
-    @Path("/update/{id}")
+    @Path("/{id}")
     public Response updateProduit(@PathParam("id") Integer id, Produit produit) {
         Produit updatedProduit = produitService.updateProduit(id, produit);
         if (updatedProduit == null) {
@@ -58,7 +58,7 @@ public class ProduitResource {
     }
 
     @DELETE
-    @Path("/delete/{id}")
+    @Path("/{id}")
     public Response deleteProduit(@PathParam("id") Integer id) {
         boolean deleted = produitService.deleteProduit(id);
         if (!deleted) {
