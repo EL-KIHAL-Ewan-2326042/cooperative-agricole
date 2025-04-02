@@ -3,12 +3,12 @@ function showModal(id) {
 
     document.getElementById("modal-title").innerHTML = produit.nom + '<br>' + '<span class="product-type">Type : ' + produit.type + '</span></h3>';
     document.getElementById("modal-title").setAttribute("data-product-id", produit.id);
-    document.getElementById("modal-image").innerHTML = '<img src="' + produit.image + '" alt="' + produit.nom + '">';
+    document.getElementById("modal-image").innerHTML = '<img src="' + produit.image + '" alt="' + produit.nom + '" loading="lazy">';
     document.getElementById("modal-description").innerHTML =
-        'Prix : ' + produit.prix + ' €/' + produit.unite_id + '<br>' +
+        'Prix : ' + produit.prix + ' €/' + produit.nom_unite + '<br>' +
         'Quantité disponible : ' + produit.quantite;
 
-    document.getElementById("quantity-label").innerHTML = 'Quantité (' + produit.unite_id + ') :';
+    document.getElementById("quantity-label").innerHTML = 'Quantité (' + produit.symbole_unite + ') :';
 
     const quantityInput = document.getElementById("quantity");
     quantityInput.value = "1";
@@ -34,7 +34,7 @@ function updateQuantity(change) {
     }
 }
 function updateTotal() {
-    const id = getCurrentProductId();
+    const id = getCurrentProduitId();
     const produit = produits.find(p => p.id === id);
 
     const quantityInput = document.getElementById("quantity");
@@ -55,7 +55,7 @@ function updateTotal() {
     document.getElementById("total-price").innerText = totalPrice + " €";
 }
 
-function getCurrentProductId() {
+function getCurrentProduitId() {
     return Number(document.getElementById("modal-title").getAttribute("data-product-id"));
 }
 function closeModal() {
@@ -75,7 +75,7 @@ function closeModal() {
 
 
 function ajouterPanier() {
-    const id = getCurrentProductId();
+    const id = getCurrentProduitId();
     const produit = produits.find(p => p.id === id);
     const image = document.getElementById("modal-image").querySelector("img").src;
     const quantity = Number(document.getElementById("quantity").value);
@@ -83,20 +83,17 @@ function ajouterPanier() {
     const prixTotal = (produit.prix * quantity).toFixed(2);
 
     let message = "";
-    if (produit.unite_id === "unité") {
-        message = quantity + " unité" + (quantity > 1 ? 's' : '');
+    if (produit.unite && produit.unite.nom) {
+        message = quantity + " " + produit.unite.nom + (quantity > 1 ? 's' : '');
     } else {
-        message = quantity + " " + produit.unite_id + (quantity > 1 ? 's' : '');
+        message = quantity + " unité" + (quantity > 1 ? 's' : '');
     }
 
-    // Ajouter au localStorage
     let panier = JSON.parse(localStorage.getItem('panier')) || [];
 
-    // Vérifier si le produit existe déjà dans le panier
     const produitExistant = panier.find(p => p.id === produit.id);
 
     if (produitExistant) {
-        // Ajouter la quantité (en respectant la limite)
         const nouvelleQuantite = Math.min(produitExistant.quantite + quantity, produit.quantite);
         produitExistant.quantite = nouvelleQuantite;
     } else {
@@ -109,7 +106,8 @@ function ajouterPanier() {
             unite_id: produit.unite_id,
             quantite: quantity,
             image: image,
-            stockDisponible: produit.quantite
+            stockDisponible: produit.quantite,
+            unite: produit.unite
         });
     }
 
@@ -150,3 +148,6 @@ function ajouterPanier() {
         }, 900);
     }, 100);
 }
+
+
+

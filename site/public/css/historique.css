@@ -63,6 +63,7 @@
 }
 
 .commande-date {
+    margin-right: 12px;
     font-size: 16px;
     color: #666;
 }
@@ -135,8 +136,11 @@
 }
 
 .commande-produit-prix {
-    font-weight: bold;
+    background: rgba(76, 175, 80, 0.15);
     color: #4CAF50;
+    padding: 8px 15px;
+    border-radius: 12px;
+    font-weight: bold;
     font-size: 16px;
 }
 

@@ -33,8 +33,10 @@
 
 .commande-grid {
     display: grid;
-    grid-template-columns: 1fr 380px;
+    grid-template-columns: 100% 380px;
     gap: 40px;
+    justify-content: center;
+
 }
 
 .commande-form {

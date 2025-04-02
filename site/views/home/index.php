@@ -11,8 +11,8 @@
                         <img src="<?= $produit['image'] ?>" alt="<?= $produit['nom'] ?>">
                     </div>
                     <h3><?= $produit['nom'] ?></h3>
-                    <p>Type : <?= $produit['type'] ?></p>
-                    <p>Prix : <?= $produit['prix'] ?> €/<?= $produit['unite_id'] ?></p>
+                    <p><?= $produit['type'] ?></p>
+                    <p>Prix : <?= $produit['prix'] ?> €/<?= $produit['symbole_unite'] ?></p>
                 </div>
             <?php endforeach; ?>
         <?php else: ?>

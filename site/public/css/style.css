@@ -10,10 +10,20 @@
     font-family: 'Google Sans', sans-serif;
 }
 
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
 body {
     background-color: #f0f0f0;
     color: #333;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
+
 
 select#unite {
     background-color: #f0f0f0;
@@ -77,10 +87,8 @@ footer {
     color: #fff;
     text-align: center;
     padding: 10px;
-    position: fixed;
-    bottom: 0;
     width: 100%;
-    z-index: 10;
+    margin-top: auto;
 }
 
 nav .login-icon {
@@ -164,7 +172,7 @@ nav .login-icon {
 .modal-content {
     background-color: #ffffff;
     padding: 30px;
-    border-radius: 20px;
+    border-radius: 33px;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -271,15 +279,14 @@ nav .login-icon {
 }
 
 .ajouter-panier-btn:active {
-    transform: translateY(2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transform: scale(0.9, 0.95);
 }
 
 .close {
     position: absolute;
     top: 15px;
-    right: 20px;
-    font-size: 24px;
+    right: 25px;
+    font-size: 28px;
     cursor: pointer;
 }
 
@@ -433,6 +440,8 @@ nav .login-icon {
     display: block;
 }
 
+
+
 @media (max-width: 1180px) {
     .product-grid {
         grid-template-columns: repeat(4, 1fr);
@@ -553,7 +562,7 @@ nav .login-icon {
         opacity: 1;
     }
     15% {
-        transform: translate(-50%, -52%) scale(1.12, 0.95);
+        transform: translate(-50%, -52%) scale(1.1, 0.95);
         transform-origin: bottom center;
         opacity: 1;
     }

@@ -32,7 +32,7 @@ function afficherPanier() {
                <div class="panier-item-info">
                    <h3>${produit.nom}</h3>
                    <p class="panier-item-type">Type: ${produit.type}</p>
-                   <p class="panier-item-prix">${produit.prix} €/${produit.unite_id}</p>
+                   <p class="panier-item-prix">${produit.prix} €/${produit.unite.symbole}</p>
                 </div>
                 <div class="panier-item-quantite">
                  <button class="quantite-btn" onclick="modifierQuantite(${produit.id}, -1)">-</button>

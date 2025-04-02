@@ -34,7 +34,7 @@ function initialiserCommande() {
 
             const itemHTML = `
                 <div class="commande-item" data-id="${produit.id}">
-                    <img src="${produit.image}" alt="${produit.nom}">
+                    <img src="${produit.image}" alt="${produit.nom}" loading="lazy">
                     <div class="commande-item-details">
                         <h3>${produit.nom}</h3>
                         <p>${produit.quantite} × ${produit.prix.toFixed(2)} €</p>
@@ -62,57 +62,53 @@ function setupFormValidation() {
 
     if (!commandeForm) return;
 
-    commandeForm.addEventListener('submit', function(e) {
-        e.preventDefault();
+    commandeForm.addEventListener('submit', function(event) {
+        event.preventDefault();
 
-        const errorElements = document.querySelectorAll('.error-message');
-        errorElements.forEach(el => el.remove());
-
-        const inputs = commandeForm.querySelectorAll('input[required]');
-        inputs.forEach(input => input.classList.remove('input-error'));
-
+        // Valider le formulaire
         let isValid = true;
+        const champsObligatoires = ['nom', 'prenom', 'email', 'telephone', 'adresse', 'code_postal', 'ville'];
 
-        inputs.forEach(input => {
-            if (!validateInput(input)) {
+        champsObligatoires.forEach(champ => {
+            const input = document.getElementById(champ);
+            if (!input || !input.value.trim()) {
                 isValid = false;
-                markAsError(input);
+                afficherErreur(input, 'Ce champ est obligatoire');
+            } else {
+                supprimerErreur(input);
             }
         });
+
+        // Validation spécifique pour l'email
+        const emailInput = document.getElementById('email');
+        if (emailInput && emailInput.value.trim() && !validateEmail(emailInput.value)) {
+            isValid = false;
+            afficherErreur(emailInput, 'Veuillez entrer une adresse email valide');
+        }
 
         if (isValid) {
-            const submitBtn = commandeForm.querySelector('button[type="submit"]');
-            submitBtn.innerHTML = '<span>Traitement en cours...</span>';
-            submitBtn.style.opacity = '0.8';
-            submitBtn.style.pointerEvents = 'none';
-
+            // Récupérer les données du formulaire
             const formData = new FormData(commandeForm);
 
+            // Sauvegarder la commande
             sauvegarderCommande(formData);
 
-            setTimeout(() => {
-                window.location.href = '?route=commande/confirmation';
-            }, 800);
-        } else {
-            commandeForm.classList.add('shake');
-            setTimeout(() => {
-                commandeForm.classList.remove('shake');
-            }, 500);
+            // Rediriger vers la page de confirmation
+            window.location.href = '?route=commande/confirmation';
         }
     });
+}
 
-    const inputs = commandeForm.querySelectorAll('input[required]');
-    inputs.forEach(input => {
-        input.addEventListener('blur', function() {
-            validateInput(input);
-        });
+function validateEmail(email) {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(email);
+}
 
-        input.addEventListener('input', function() {
-            if (input.classList.contains('input-error')) {
-                validateInput(input);
-            }
-        });
-    });
+function supprimerErreur(input) {
+    const errorElement = input.parentNode.querySelector('.error-message');
+    if (errorElement) {
+        errorElement.remove();
+    }
 }
 
 function validateInput(input) {
