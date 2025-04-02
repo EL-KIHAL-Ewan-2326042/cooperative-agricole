@@ -31,7 +31,7 @@ public class TypeService {
             return null;
         }
 
-        type.setId(id);
+        type.setTypeId(id);
         return typeRepository.save(type);
     }
 

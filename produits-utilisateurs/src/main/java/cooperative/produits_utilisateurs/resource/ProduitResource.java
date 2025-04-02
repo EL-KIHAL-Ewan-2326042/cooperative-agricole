@@ -42,20 +42,20 @@ public class ProduitResource {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
 
-        // Vérification explicite que le type et l'unité sont présents
-        if (produit.getType() == null && produit.getTypeId() != null) {
-            Type type = typeService.getTypeById(produit.getTypeId());
-            if (type != null) {
-                produit.setType(type);
+        // Récupération forcée du type complet directement depuis le service
+        if (produit.getTypeId() != null) {
+            Type typeComplet = typeService.getTypeById(produit.getTypeId());
+            if (typeComplet != null) {
+                System.out.println("[DEBUG] Type récupéré directement: " + typeComplet.getNom());
+                produit.setType(typeComplet);
             }
         }
 
-        if (produit.getUnite() == null || (produit.getUnite() != null && produit.getUnite().getNom() == null)) {
-            if (produit.getUnite() != null && produit.getUnite().getId() != null) {
-                Unite unite = uniteService.getUniteById(produit.getUnite().getId());
-                if (unite != null) {
-                    produit.setUnite(unite);
-                }
+        // Vérification de l'unité
+        if (produit.getUnite() != null && produit.getUnite().getId() != null && produit.getUnite().getNom() == null) {
+            Unite uniteComplete = uniteService.getUniteById(produit.getUnite().getId());
+            if (uniteComplete != null) {
+                produit.setUnite(uniteComplete);
             }
         }
 
@@ -133,5 +133,33 @@ public class ProduitResource {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
         return Response.noContent().build();
+    }
+
+    @GET
+    @Path("/debug/{id}")
+    public Response debugProduit(@PathParam("id") Integer id) {
+        Produit produit = produitService.getProduitById(id);
+        if (produit == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+
+        // Forcer le chargement du type si nécessaire
+        if (produit.getType() != null && produit.getType().getNom() == null) {
+            Type type = typeService.getTypeById(produit.getType().getTypeId());
+            if (type != null) {
+                // Mise à jour directe avec l'objet type complet
+                produit.setType(type);
+            }
+        }
+
+        StringBuilder debug = new StringBuilder();
+        debug.append("Produit ID: ").append(produit.getId())
+                .append("\nNom: ").append(produit.getNom())
+                .append("\nType ID: ").append(produit.getTypeId())
+                .append("\nType: ").append(produit.getType() != null ? "non null" : "null")
+                .append("\nNom Type: ").append(produit.getTypeName())
+                .append("\nUnité: ").append(produit.getUnite() != null ? produit.getUnite().getNom() : "null");
+
+        return Response.ok(debug.toString()).type(MediaType.TEXT_PLAIN).build();
     }
 }

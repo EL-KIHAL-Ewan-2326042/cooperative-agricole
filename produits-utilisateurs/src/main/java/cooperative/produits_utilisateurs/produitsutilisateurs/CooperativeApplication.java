@@ -17,7 +17,7 @@ public class CooperativeApplication extends Application {
     public DatabaseRepository openDbConnection() {
         try {
             return new MariaDbRepository(
-                "jdbc:mariadb://mysql-anarchy-acres.alwaysdata.net:3306/anarchy-acres_produits_utilisateurs?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC",
+                "jdbc:mariadb://mysql-anarchy-acres.alwaysdata.net:3306/anarchy-acres_produits_utilisateurs?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&characterEncoding=UTF-8",
                 "406080",
                 "jpD73FM)Q-qSwe6"
             );

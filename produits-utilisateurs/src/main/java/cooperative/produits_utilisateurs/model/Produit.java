@@ -1,21 +1,27 @@
 package cooperative.produits_utilisateurs.model;
 
+import jakarta.json.bind.annotation.JsonbTransient;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 public class Produit {
 
-    private Integer id;
+    private Integer produitId;
     private String nom;
-    private Type type;
     private BigDecimal prix;
     private Integer quantite;
-    private Unite unite;
+    private Integer uniteId;
     private LocalDateTime dateMiseAJour;
-    private String imagePath;
+    private Integer typeId;
+    private Type type;
+    private Unite unite;
 
-    public Integer getId() { return id; }
-    public void setId(Integer id) { this.id = id; }
+    public Integer getId() { return produitId; }
+    public void setId(Integer id) { this.produitId = id; }
+
+    public Integer getProduitId() { return produitId; }
+    public void setProduitId(Integer produitId) { this.produitId = produitId; }
 
     public String getNom() { return nom; }
     public void setNom(String nom) { this.nom = nom; }
@@ -24,14 +30,11 @@ public class Produit {
     public void setType(Type type) { this.type = type; }
 
     public Integer getTypeId() {
-        return type != null ? type.getId() : null;
+        return typeId;
     }
 
     public void setTypeId(Integer typeId) {
-        if (this.type == null) {
-            this.type = new Type();
-        }
-        this.type.setId(typeId);
+        this.typeId = typeId;
     }
 
     public String getTypeName() {
@@ -47,9 +50,9 @@ public class Produit {
     public Unite getUnite() { return unite; }
     public void setUnite(Unite unite) { this.unite = unite; }
 
+    public Integer getUniteId() { return uniteId; }
+    public void setUniteId(Integer uniteId) { this.uniteId = uniteId; }
+
     public LocalDateTime getDateMiseAJour() { return dateMiseAJour; }
     public void setDateMiseAJour(LocalDateTime dateMiseAJour) { this.dateMiseAJour = dateMiseAJour; }
-
-    public String getImagePath() { return imagePath; }
-    public void setImagePath(String imagePath) { this.imagePath = imagePath; }
 }
