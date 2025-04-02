@@ -12,7 +12,15 @@ class Produit {
     public function __construct(array $data) {
         $this->id = $data['id'] ?? 0;
         $this->name = $data['nom'] ?? '';
-        $this->type = $data['type'] ?? '';
+        
+        // Gérer le cas où type est un tableau
+        if (isset($data['type']) && is_array($data['type'])) {
+            // Utiliser le premier élément ou une autre logique selon vos besoins
+            $this->type = isset($data['type']['nom']) ? $data['type']['nom'] : '';
+        } else {
+            $this->type = $data['type'] ?? '';
+        }
+        
         $this->price = $data['prix'] ?? 0.0;
         $this->quantity = $data['quantite'] ?? 0;
         $this->image = $data['image'] ?? '';
@@ -38,6 +46,10 @@ class Produit {
 
     public function getType(): string {
         return $this->type;
+    }
+
+    public function setType(string $type): void {
+        $this->type = $type;
     }
 
     public function getPrice(): float {
@@ -74,10 +86,6 @@ class Produit {
         $this->name = $name;
     }
 
-    public function setType(string $type): void {
-        $this->type = $type;
-    }
-
     public function setPrice(float $price): void {
         $this->price = $price;
     }
@@ -89,7 +97,6 @@ class Produit {
     public function setImage(string $image): void {
         $this->image = $image;
     }
-
 
 
     public function toArray(): array {
