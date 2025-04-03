@@ -8,6 +8,9 @@ import java.time.LocalDateTime;
 import cooperative.produits_utilisateurs.model.*;
 import cooperative.produits_utilisateurs.model.Type;
 
+/**
+ * Implémentation de {@link DatabaseRepository} pour MariaDB.
+ */
 public class MariaDbRepository implements DatabaseRepository {
     private Connection connection;
 
@@ -20,6 +23,14 @@ public class MariaDbRepository implements DatabaseRepository {
         }
     }
 
+    /**
+     * Constructeur pour initialiser la connexion à la base de données.
+     *
+     * @param url l'URL de la base de données
+     * @param user l'utilisateur de la base de données
+     * @param password le mot de passe de la base de données
+     * @throws SQLException si une erreur survient lors de la connexion
+     */
     public MariaDbRepository(String url, String user, String password) throws SQLException {
         connection = DriverManager.getConnection(url, user, password);
     }

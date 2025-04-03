@@ -22,6 +22,11 @@ public class ProduitService {
     @Inject
     private UniteService uniteService;
 
+    /**
+     * Récupère tous les produits.
+     *
+     * @return La liste de tous les produits.
+     */
     public List<Produit> getAllProduits() {
         List<Produit> produits = produitRepository.findAll();
         for (Produit produit : produits) {
@@ -30,6 +35,12 @@ public class ProduitService {
         return produits;
     }
 
+    /**
+     * Récupère un produit par son identifiant.
+     *
+     * @param id L'identifiant du produit.
+     * @return Le produit correspondant, ou null s'il n'existe pas.
+     */
     public Produit getProduitById(Integer id) {
         Produit produit = produitRepository.findById(id);
         if (produit == null) {
@@ -40,6 +51,11 @@ public class ProduitService {
         return produit;
     }
 
+    /**
+     * Enrichit un produit avec des informations supplémentaires.
+     *
+     * @param produit Le produit à enrichir.
+     */
     private void enrichProduit(Produit produit) {
         // Enrichir avec les informations de type
         if (produit.getTypeId() != null) {
@@ -58,6 +74,12 @@ public class ProduitService {
         }
     }
 
+    /**
+     * Recherche des produits par leur nom.
+     *
+     * @param nom Le nom du produit.
+     * @return La liste des produits correspondant au nom.
+     */
     public List<Produit> findProduitsByNom(String nom) {
         List<Produit> produits = produitRepository.findByNom(nom);
         for (Produit produit : produits) {
@@ -66,6 +88,12 @@ public class ProduitService {
         return produits;
     }
 
+    /**
+     * Crée un nouveau produit.
+     *
+     * @param produit Le produit à créer.
+     * @return Le produit créé.
+     */
     public Produit createProduit(Produit produit) {
         produit.setDateMiseAJour(LocalDateTime.now());
 
@@ -78,6 +106,13 @@ public class ProduitService {
         return savedProduit;
     }
 
+    /**
+     * Met à jour un produit existant.
+     *
+     * @param id L'identifiant du produit à mettre à jour.
+     * @param produit Les nouvelles informations du produit.
+     * @return Le produit mis à jour.
+     */
     public Produit updateProduit(Integer id, Produit produit) {
         Produit existingProduit = produitRepository.findById(id);
         if (existingProduit == null) {
@@ -96,6 +131,12 @@ public class ProduitService {
         return updatedProduit;
     }
 
+    /**
+     * Supprime un produit par son identifiant.
+     *
+     * @param id L'identifiant du produit à supprimer.
+     * @return true si le produit a été supprimé, sinon false.
+     */
     public boolean deleteProduit(Integer id) {
         Produit produit = produitRepository.findById(id);
         if (produit == null) {

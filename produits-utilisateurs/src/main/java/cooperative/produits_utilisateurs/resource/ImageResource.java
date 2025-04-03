@@ -12,6 +12,9 @@ import jakarta.ws.rs.core.Response.Status;
 import java.io.IOException;
 import java.io.InputStream;
 
+/**
+ * Ressource REST pour gérer les images des produits.
+ */
 @Path("/images")
 public class ImageResource {
 
@@ -21,6 +24,12 @@ public class ImageResource {
     @Inject
     private ProduitService produitService;
 
+    /**
+     * Récupère l'image d'un produit par son ID.
+     *
+     * @param id l'ID du produit
+     * @return la réponse contenant l'image du produit ou un statut d'erreur
+     */
     @GET
     @Path("/produit/{id}")
     @Produces("image/jpeg")
@@ -45,6 +54,13 @@ public class ImageResource {
         }
     }
 
+    /**
+     * Télécharge une image pour un produit donné.
+     *
+     * @param id l'ID du produit
+     * @param imageData les données de l'image en flux d'entrée
+     * @return la réponse indiquant le succès ou l'échec de l'opération
+     */
     @POST
     @Path("/produit/{id}")
     @Consumes(MediaType.APPLICATION_OCTET_STREAM)

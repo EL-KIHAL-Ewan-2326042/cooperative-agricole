@@ -14,6 +14,9 @@ import jakarta.ws.rs.core.Response;
 import java.math.BigDecimal;
 import java.util.List;
 
+/**
+ * Ressource REST pour gérer les produits.
+ */
 @Path("/produits")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
@@ -28,12 +31,23 @@ public class ProduitResource {
     @Inject
     private TypeService typeService;
 
+    /**
+     * Récupère tous les produits.
+     *
+     * @return la réponse contenant la liste des produits
+     */
     @GET
     public Response getAllProduits() {
         List<Produit> produits = produitService.getAllProduits();
         return Response.ok(produits).build();
     }
 
+    /**
+     * Récupère un produit par son ID.
+     *
+     * @param id l'ID du produit
+     * @return la réponse contenant le produit ou un statut d'erreur
+     */
     @GET
     @Path("/{id}")
     public Response getProduitById(@PathParam("id") Integer id) {
@@ -62,6 +76,12 @@ public class ProduitResource {
         return Response.ok(produit).build();
     }
 
+    /**
+     * Recherche des produits par leur nom.
+     *
+     * @param nom le nom du produit
+     * @return la réponse contenant la liste des produits correspondants
+     */
     @GET
     @Path("/search")
     public Response findProduitsByNom(@QueryParam("nom") String nom) {
@@ -69,6 +89,12 @@ public class ProduitResource {
         return Response.ok(produits).build();
     }
 
+    /**
+     * Crée un nouveau produit.
+     *
+     * @param produit le produit à créer
+     * @return la réponse contenant le produit créé
+     */
     @POST
     public Response createProduit(Produit produit) {
         Produit newProduit = produitService.createProduit(produit);
@@ -77,6 +103,16 @@ public class ProduitResource {
                 .build();
     }
 
+    /**
+     * Crée un nouveau produit avec des paramètres de chemin.
+     *
+     * @param nom le nom du produit
+     * @param typeId l'ID du type du produit
+     * @param prix le prix du produit
+     * @param quantite la quantité du produit
+     * @param uniteId l'ID de l'unité du produit
+     * @return la réponse contenant le produit créé ou un statut d'erreur
+     */
     @POST
     @Path("/create")
     @Produces(MediaType.APPLICATION_JSON)
@@ -115,6 +151,13 @@ public class ProduitResource {
                 .build();
     }
 
+    /**
+     * Met à jour un produit existant.
+     *
+     * @param id l'ID du produit
+     * @param produit le produit avec les nouvelles données
+     * @return la réponse contenant le produit mis à jour ou un statut d'erreur
+     */
     @PUT
     @Path("/{id}")
     public Response updateProduit(@PathParam("id") Integer id, Produit produit) {
@@ -125,6 +168,12 @@ public class ProduitResource {
         return Response.ok(updatedProduit).build();
     }
 
+    /**
+     * Supprime un produit par son ID.
+     *
+     * @param id l'ID du produit
+     * @return la réponse indiquant le succès ou l'échec de l'opération
+     */
     @DELETE
     @Path("/{id}")
     public Response deleteProduit(@PathParam("id") Integer id) {
@@ -135,6 +184,12 @@ public class ProduitResource {
         return Response.noContent().build();
     }
 
+    /**
+     * Débogue un produit par son ID.
+     *
+     * @param id l'ID du produit
+     * @return la réponse contenant les informations de débogage du produit
+     */
     @GET
     @Path("/debug/{id}")
     public Response debugProduit(@PathParam("id") Integer id) {

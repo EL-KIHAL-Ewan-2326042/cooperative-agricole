@@ -8,10 +8,17 @@ import jakarta.enterprise.inject.Produces;
 import jakarta.ws.rs.ApplicationPath;
 import jakarta.ws.rs.core.Application;
 
+/**
+ * Classe principale de l'application coopérative.
+ */
 @ApplicationPath("/api")
 @ApplicationScoped
 public class CooperativeApplication extends Application {
-    
+
+    /**
+     * Ouvre une connexion à la base de données.
+     * @return une instance de {@link DatabaseRepository}.
+     */
     @Produces
     @ApplicationScoped
     public DatabaseRepository openDbConnection() {
@@ -27,7 +34,11 @@ public class CooperativeApplication extends Application {
             return null;
         }
     }
-    
+
+    /**
+     * Ferme la connexion à la base de données.
+     * @param repository l'instance de {@link DatabaseRepository} à fermer.
+     */
     public void closeDbConnection(@Disposes DatabaseRepository repository) {
         repository.close();
     }

@@ -20,6 +20,13 @@ public class ImageService {
     // Chemin absolu vers le dossier externe sur le serveur
     private static final String EXTERNAL_IMAGE_DIRECTORY = "/var/coop-images";
 
+    /**
+     * Obtient le chemin de l'image pour un produit donné.
+     *
+     * @param productId L'identifiant du produit.
+     * @param productName Le nom du produit.
+     * @return Le chemin de l'image.
+     */
     public Path getImagePath(Integer productId, String productName) {
         // Nommage plus propre avec extension
         String fileName = productId + "_" + productName.replaceAll("[\\s+/\\\\:*?\"<>|]", "_") + ".jpg";
@@ -36,11 +43,21 @@ public class ImageService {
         return imagesDir.resolve(fileName);
     }
 
+    /**
+     * Vérifie si une image existe pour un produit donné.
+     *
+     * @param productId L'identifiant du produit.
+     * @param productName Le nom du produit.
+     * @return true si l'image existe, sinon false.
+     */
     public boolean imageExists(Integer productId, String productName) {
         Path imagePath = getImagePath(productId, productName);
         return Files.exists(imagePath);
     }
 
+    /**
+     * Initialise les images par défaut après la construction de l'application.
+     */
     @PostConstruct
     public void initDefaultImages() {
         try {
@@ -59,6 +76,14 @@ public class ImageService {
         }
     }
 
+    /**
+     * Obtient les données de l'image pour un produit donné.
+     *
+     * @param productId L'identifiant du produit.
+     * @param productName Le nom du produit.
+     * @return Les données de l'image sous forme de tableau d'octets.
+     * @throws IOException Si une erreur d'entrée/sortie se produit.
+     */
     public byte[] getImageData(Integer productId, String productName) throws IOException {
         Path imagePath = getImagePath(productId, productName);
         if (!Files.exists(imagePath)) {
@@ -71,6 +96,14 @@ public class ImageService {
         return Files.readAllBytes(imagePath);
     }
 
+    /**
+     * Sauvegarde une image pour un produit donné.
+     *
+     * @param productId L'identifiant du produit.
+     * @param productName Le nom du produit.
+     * @param imageData Les données de l'image sous forme de flux d'entrée.
+     * @throws IOException Si une erreur d'entrée/sortie se produit.
+     */
     public void saveImage(Integer productId, String productName, InputStream imageData) throws IOException {
         Path destination = getImagePath(productId, productName);
         Files.copy(imageData, destination, StandardCopyOption.REPLACE_EXISTING);

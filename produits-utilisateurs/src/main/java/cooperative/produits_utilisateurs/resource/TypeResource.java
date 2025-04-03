@@ -8,18 +8,32 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import java.util.List;
 
+/**
+ * Ressource REST pour gérer les types de produits.
+ */
 @Path("/types")
 @Produces(MediaType.APPLICATION_JSON)
 public class TypeResource {
     @Inject
     private TypeService typeService;
     
+    /**
+     * Récupère tous les types de produits.
+     *
+     * @return la réponse contenant la liste des types
+     */
     @GET
     public Response getAllTypes() {
         List<Type> types = typeService.getAllTypes();
         return Response.ok(types).build();
     }
     
+    /**
+     * Récupère un type de produit par son ID.
+     *
+     * @param id l'ID du type
+     * @return la réponse contenant le type ou un statut d'erreur
+     */
     @GET
     @Path("/{id}")
     public Response getTypeById(@PathParam("id") Integer id) {
@@ -30,6 +44,12 @@ public class TypeResource {
         return Response.ok(type).build();
     }
 
+    /**
+     * Crée un nouveau type de produit.
+     *
+     * @param type le type à créer
+     * @return la réponse contenant le type créé ou un statut d'erreur
+     */
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
@@ -41,6 +61,13 @@ public class TypeResource {
         return Response.serverError().build();
     }
 
+    /**
+     * Met à jour un type de produit existant.
+     *
+     * @param id l'ID du type
+     * @param type le type avec les nouvelles données
+     * @return la réponse contenant le type mis à jour ou un statut d'erreur
+     */
     @PUT
     @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -67,6 +94,12 @@ public class TypeResource {
         return Response.ok(updatedType).build();
     }
 
+    /**
+     * Supprime un type de produit par son ID.
+     *
+     * @param id l'ID du type
+     * @return la réponse indiquant le succès ou l'échec de l'opération
+     */
     @DELETE
     @Path("/{id}")
     public Response deleteType(@PathParam("id") Integer id) {
