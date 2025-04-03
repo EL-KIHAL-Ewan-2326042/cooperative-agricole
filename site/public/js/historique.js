@@ -3,24 +3,24 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function afficherHistoriqueCommandes() {
-    // Récupérer l'historique des commandes
     const commandes = JSON.parse(localStorage.getItem('commandes')) || [];
 
     const commandesListe = document.getElementById('commandes-liste');
     const commandesVide = document.getElementById('commandes-vide');
 
-    // Vérifier si l'historique est vide
+    if (!commandesListe || !commandesVide) return;
+
     if (commandes.length === 0) {
         commandesVide.style.display = 'flex';
+        commandesListe.style.display = 'none';
         return;
     }
 
     commandesVide.style.display = 'none';
+    commandesListe.innerHTML = '';
 
-    // Trier les commandes par date (la plus récente en premier)
     commandes.sort((a, b) => new Date(b.date) - new Date(a.date));
 
-    // Afficher chaque commande
     commandes.forEach(commande => {
         const commandeDate = new Date(commande.date);
         const dateFormatee = commandeDate.toLocaleDateString('fr-FR', {
@@ -31,7 +31,6 @@ function afficherHistoriqueCommandes() {
             minute: '2-digit'
         });
 
-        // Générer le HTML pour les produits
         let produitsHTML = '';
         commande.produits.forEach(produit => {
             produitsHTML += `
@@ -46,7 +45,6 @@ function afficherHistoriqueCommandes() {
             `;
         });
 
-        // Créer la carte de commande
         const commandeCard = document.createElement('div');
         commandeCard.className = 'commande-card';
         commandeCard.innerHTML = `
@@ -54,7 +52,7 @@ function afficherHistoriqueCommandes() {
                 <h2>Commande #${commande.id}</h2>
                 <div class="commande-meta">
                     <span class="commande-date">${dateFormatee}</span>
-                    <span class="commande-status">Livrée</span>
+                    <span class="commande-status">${commande.statut || 'Livrée'}</span>
                 </div>
             </div>
             

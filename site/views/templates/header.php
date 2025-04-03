@@ -9,8 +9,6 @@ $route = $GLOBALS['route'] ?? '';
     <title><?= $pageTitle ?? 'Coopérative Agricole' ?></title>
     <?php if (isset($cssFiles) && is_array($cssFiles)): ?>
         <?php foreach ($cssFiles as $cssFile): ?>
-            <!-- Ajout d'un commentaire pour identifier le CSS -->
-            <!-- Chargement de <?= $cssFile ?> -->
             <link rel="stylesheet" href="<?= BASE_URL ?>/public/css/<?= $cssFile ?>?v=<?= time() ?>"
                   onerror="console.error('Erreur de chargement de <?= $cssFile ?>')">
         <?php endforeach; ?>
@@ -20,10 +18,9 @@ $route = $GLOBALS['route'] ?? '';
 </head>
 <body>
 <header>
-    <h1>ANARCHY ACRES</h1>
+    <h1><a href="<?= BASE_URL ?>?route=home">Anarchy Acres</a></h1>
     <nav>
-        <a href="<?= BASE_URL ?>?route=home" <?= ($route === 'home') ? 'class="active"' : '' ?>>Accueil</a>
-        <a href="<?= BASE_URL ?>?route=panier" <?= ($route === 'panier') ? 'class="active"' : '' ?>>Voir les paniers</a>
+        <a class="panier-icon" href="<?= BASE_URL ?>?route=panier" <?= ($route === 'panier') ? 'class="active"' : '' ?>>Mon panier</a>
         <a class="login-icon" href="<?= BASE_URL ?>?route=profil">Connexion / Inscription</a>
     </nav>
 </header>

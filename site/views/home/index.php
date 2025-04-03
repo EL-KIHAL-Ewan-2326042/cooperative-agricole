@@ -10,9 +10,8 @@
                     <div class="product-img">
                         <img src="<?= $produit['image'] ?>" alt="<?= $produit['nom'] ?>">
                     </div>
+                    <p><?= $produit['type'] ?> - <?= $produit['prix'] ?> €/<?= $produit['symbole_unite'] ?></p>
                     <h3><?= $produit['nom'] ?></h3>
-                    <p><?= $produit['type'] ?></p>
-                    <p>Prix : <?= $produit['prix'] ?> €/<?= $produit['symbole_unite'] ?></p>
                 </div>
             <?php endforeach; ?>
         <?php else: ?>
