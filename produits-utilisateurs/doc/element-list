@@ -1,0 +1,5 @@
+cooperative.produits_utilisateurs.model
+cooperative.produits_utilisateurs.produitsutilisateurs
+cooperative.produits_utilisateurs.repository
+cooperative.produits_utilisateurs.resource
+cooperative.produits_utilisateurs.service

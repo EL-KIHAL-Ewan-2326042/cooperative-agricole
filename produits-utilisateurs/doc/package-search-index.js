@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"cooperative.produits_utilisateurs.model"},{"l":"cooperative.produits_utilisateurs.produitsutilisateurs"},{"l":"cooperative.produits_utilisateurs.repository"},{"l":"cooperative.produits_utilisateurs.resource"},{"l":"cooperative.produits_utilisateurs.service"}];updateSearchResults();
