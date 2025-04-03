@@ -26,13 +26,13 @@ public class TypeService {
     }
 
     public Type updateType(Integer id, Type type) {
-        Type existingType = typeRepository.findById(id);
-        if (existingType == null) {
-            return null;
-        }
 
+        type.setId(id);
         type.setTypeId(id);
-        return typeRepository.save(type);
+
+        Type updatedType = typeRepository.save(type);
+
+        return updatedType;
     }
 
     public boolean deleteType(Integer id) {

@@ -29,34 +29,51 @@ public class TypeResource {
         }
         return Response.ok(type).build();
     }
-    
+
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     public Response createType(Type type) {
-        Type newType = typeService.createType(type);
-        return Response.status(Response.Status.CREATED)
-                .entity(newType)
-                .build();
+        Type createdType = typeService.createType(type);
+        if (createdType != null) {
+            return Response.status(Response.Status.CREATED).entity(createdType).build();
+        }
+        return Response.serverError().build();
     }
-    
+
     @PUT
     @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     public Response updateType(@PathParam("id") Integer id, Type type) {
-        Type updatedType = typeService.updateType(id, type);
-        if (updatedType == null) {
-            return Response.status(Response.Status.NOT_FOUND).build();
+        type.setId(id);
+        type.setTypeId(id);
+
+        if (type.getNom() == null || type.getNom().isEmpty()) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("Le nom du type est requis").build();
         }
+
+        Type updatedType = typeService.updateType(id, type);
+
+        if (updatedType == null) {
+            Type existingType = typeService.getTypeById(id);
+            if (existingType == null) {
+                return Response.status(Response.Status.NOT_FOUND).build();
+            } else {
+                return Response.status(Response.Status.NOT_MODIFIED).build();
+            }
+        }
+
         return Response.ok(updatedType).build();
     }
-    
+
     @DELETE
     @Path("/{id}")
     public Response deleteType(@PathParam("id") Integer id) {
         boolean deleted = typeService.deleteType(id);
-        if (!deleted) {
-            return Response.status(Response.Status.NOT_FOUND).build();
+        if (deleted) {
+            return Response.status(Response.Status.ACCEPTED).build();
         }
-        return Response.noContent().build();
+        return Response.status(Response.Status.NOT_FOUND).build();
     }
 }

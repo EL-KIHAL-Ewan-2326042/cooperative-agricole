@@ -48,7 +48,7 @@ public class MariaDbRepository implements DatabaseRepository {
     public <T> T findById(Class<T> entityClass, Integer id) {
         try {
             String tableName = entityClass.getSimpleName().toLowerCase();
-            String idColumnName = tableName + "_id"; // Utilisation du nouveau format de nom de colonne
+            String idColumnName = tableName + "_id";
 
             String query = "SELECT * FROM " + tableName + " WHERE " + idColumnName + " = ?";
 
@@ -69,15 +69,152 @@ public class MariaDbRepository implements DatabaseRepository {
 
     @Override
     public <T> T save(T entity) {
-        // Implémentation à adapter selon vos besoins
-        return entity;
+        try {
+            Class<?> entityClass = entity.getClass();
+            String tableName = entityClass.getSimpleName().toLowerCase();
+            String idColumnName = tableName + "_id";
+
+            // Récupérer l'ID de l'entité
+            Integer id = null;
+            try {
+                Method getIdMethod = entityClass.getMethod("getId");
+                id = (Integer) getIdMethod.invoke(entity);
+            } catch (Exception e) {
+                System.out.println("[DEBUG] Pas de méthode getId ou erreur: " + e.getMessage());
+            }
+
+            // Récupérer tous les champs non nuls de l'entité et les mapper vers les colonnes SQL
+            Map<String, Object> columnValues = new HashMap<>();
+
+            for (Field field : entityClass.getDeclaredFields()) {
+                field.setAccessible(true);
+                Object value = field.get(entity);
+                String fieldName = field.getName();
+
+                if (value != null &&
+                        !field.getType().equals(Type.class) &&
+                        !field.getType().equals(Unite.class)) {
+
+                    // Transformation des noms de champs Java en noms de colonnes SQL
+                    String columnName = fieldName;
+
+                    // Cas particuliers pour les ID
+                    columnName = switch (fieldName) {
+                        case "produitId" -> "produit_id";
+                        case "typeId" -> "type_id";
+                        case "uniteId" -> "unite_id";
+                        case "dateMiseAJour" -> "date_mise_a_jour";
+                        default -> columnName;
+                    };
+
+                    columnValues.put(columnName, value);
+                }
+            }
+
+            StringBuilder query;
+
+            if (id == null) {
+                // INSERT
+                query = new StringBuilder("INSERT INTO " + tableName + " (");
+                StringBuilder placeholders = new StringBuilder();
+
+                int i = 0;
+                for (String column : columnValues.keySet()) {
+                    query.append(column);
+                    placeholders.append("?");
+
+                    if (i < columnValues.size() - 1) {
+                        query.append(", ");
+                        placeholders.append(", ");
+                    }
+                    i++;
+                }
+
+                query.append(") VALUES (").append(placeholders).append(")");
+
+            } else {
+                // UPDATE
+                query = new StringBuilder("UPDATE " + tableName + " SET ");
+
+                List<String> updateColumns = new ArrayList<>();
+                for (String column : columnValues.keySet()) {
+                    if (!column.equals(idColumnName)) {
+                        updateColumns.add(column);
+                    }
+                }
+
+                for (int i = 0; i < updateColumns.size(); ++i) {
+                    query.append(updateColumns.get(i)).append(" = ?");
+                    if (i < updateColumns.size() - 1) {
+                        query.append(", ");
+                    }
+                }
+
+                query.append(" WHERE ").append(idColumnName).append(" = ?");
+            }
+
+            System.out.println("[DEBUG] Requête SQL: " + query);
+
+            try (PreparedStatement pstmt = connection.prepareStatement(query.toString(),
+                    Statement.RETURN_GENERATED_KEYS)) {
+
+                int paramIndex = 1;
+
+                if (id == null) {
+                    // INSERT params
+                    for (Object value : columnValues.values()) {
+                        pstmt.setObject(paramIndex++, value);
+                    }
+                } else {
+                    // UPDATE params
+                    for (Map.Entry<String, Object> entry : columnValues.entrySet()) {
+                        if (!entry.getKey().equals(idColumnName)) {
+                            pstmt.setObject(paramIndex++, entry.getValue());
+                        }
+                    }
+                    pstmt.setObject(paramIndex, id);
+                }
+
+                int affectedRows = pstmt.executeUpdate();
+
+                if (affectedRows > 0) {
+                    if (id == null) {
+                        // Pour un INSERT, récupérer l'ID généré
+                        try (ResultSet generatedKeys = pstmt.getGeneratedKeys()) {
+                            if (generatedKeys.next()) {
+                                int newId = generatedKeys.getInt(1);
+
+                                if (entity instanceof Type) {
+                                    ((Type) entity).setTypeId(newId);
+                                    ((Type) entity).setId(newId);
+                                } else if (entity instanceof Unite) {
+                                    ((Unite) entity).setUniteId(newId);
+                                    ((Unite) entity).setId(newId);
+                                } else if (entity instanceof Produit) {
+                                    ((Produit) entity).setProduitId(newId);
+                                    ((Produit) entity).setId(newId);
+                                }
+                            }
+                        }
+                    }
+                    return entity;
+                }
+            }
+
+        } catch (Exception e) {
+            System.out.println("[DEBUG] Erreur dans save: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
     @Override
     public <T> boolean delete(Class<T> entityClass, Integer id) {
         try {
             String tableName = entityClass.getSimpleName().toLowerCase();
-            String query = "DELETE FROM " + tableName + " WHERE id = ?";
+            String idColumnName = tableName + "_id";
+            String query = "DELETE FROM " + tableName + " WHERE " + idColumnName + " = ?";
 
             try (PreparedStatement pstmt = connection.prepareStatement(query)) {
                 pstmt.setInt(1, id);
@@ -253,17 +390,14 @@ public class MariaDbRepository implements DatabaseRepository {
                         unite.setUniteId(rs.getInt("unite_id"));
                         unite.setNom(rs.getString("nom"));
                         unite.setSymbole(rs.getString("symbole"));
-                        System.out.println("[DEBUG] Unité chargée : ID=" + id + ", Nom=" + unite.getNom());
                         return unite;
                     }
                 }
             }
         } catch (Exception e) {
-            System.out.println("[DEBUG] Erreur lors du chargement de l'unité: " + e.getMessage());
             e.printStackTrace();
         }
 
-        System.out.println("[DEBUG] Unité non trouvée pour ID=" + id);
         return null;
     }
 
