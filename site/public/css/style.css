@@ -1,0 +1,679 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Google+Sans:100,300,400,500,700,900,100i,300i,400i,500i,700i,900i');
+@import url('https://db.onlinewebfonts.com/c/8dd35a5ee9eab8c7c069365ac14fed9a?family=Burbank+Big+Regular+Black');
+@import url('https://db.onlinewebfonts.com/c/771545ad3c588eace8fa2bb99d2c4e59?family=Burbank+Small+Light');
+@import url('https://db.onlinewebfonts.com/c/9f62e2b9b9235acb5512c7f03cf0f792?family=Burbank+Small+Black');
+
+:root {
+    --color-dark: #2233d8;
+    --color-medium: #00a6ff;
+    --color-light: #29dbff;
+    --color-subtext: #29dbff;
+}
+
+h1 {
+    font-family: "Burbank Big Regular Black", sans-serif !important;
+}
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Google Sans', sans-serif;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: #f0f0f0;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+select#unite {
+    background-color: #f0f0f0;
+    padding: 5px;
+    border: none;
+    border-radius: 12px;
+}
+
+header {
+    background: radial-gradient(
+            circle at center,
+            var(--color-medium) 40%,
+            var(--color-medium) 20%,
+            var(--color-dark) 90%);
+    color: #fff;
+    padding: 30px 20px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+header::before {
+    display: none;
+}
+
+header::after {
+    content: '';
+    position: absolute;
+    top: -250%;
+    left: -250%;
+    width: 620%;
+    height: 780%;
+    background-image: url('https://arcarr.com/assets/images/post4/background.svg');
+    background-size: 55px 100px;
+    transform: rotate(15deg);
+    transform-origin: center center;
+    z-index: -1;
+    opacity: 0.2;
+    animation: backgroundScroll 80s linear infinite;
+}
+
+header h1 a {
+    font-family: "Burbank Big Regular Black", sans-serif;
+    font-size: 2.5rem;
+    font-style: italic;
+    margin-bottom: 0;
+    color: #fff;
+    text-decoration: none;
+    display: inline-block;
+    vertical-align: middle;
+    position: relative;
+    text-transform: uppercase;
+}
+
+nav {
+    display: flex;
+    align-items: center;
+}
+
+nav a {
+    margin-right: 15px;
+    color: #fff;
+    text-decoration: none;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+nav a.active {
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+
+main {
+    padding: 20px;
+    flex-grow: 1;
+}
+
+h2 {
+    color: #1260E1;
+}
+
+footer {
+    background-color: #1260e1;
+    color: #fff;
+    text-align: center;
+    padding: 10px;
+    width: 100%;
+    margin-top: auto;
+}
+
+nav .login-icon {
+    margin-right: 0px;
+}
+
+nav .panier-icon {
+    margin-left: auto;
+}
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 20px;
+    width: auto;
+    margin-top: 12px;
+}
+
+.product-card {
+    background: radial-gradient(
+            circle at center,
+            #ffffff 40%,
+            #ffffff 20%,
+            #dddada 90%);
+    padding: 20px;
+    padding-bottom: 5px;
+    border-radius: 20px;
+    box-shadow: 0px 0px 10px rgb(0 0 0 / 5%);
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+}
+
+.product-card::after {
+    content: '';
+    position: absolute;
+    top: -250%;
+    left: -250%;
+    width: 620%;
+    height: 780%;
+    background-image: url('https://arcarr.com/assets/images/post4/background.svg');
+    background-size: 55px 100px;
+    z-index: -1;
+    transform: rotate(15deg);
+    opacity: 0.2;
+    pointer-events: none;
+    transform-origin: center center;
+    animation: backgroundScroll 80s linear infinite;
+}
+
+.product-card h3 {
+    font-size: 32px;
+    font-family: 'Burbank Big Regular Black', sans-serif;
+    background-image: linear-gradient(180deg, #111c47, #075c99);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+    width: 85%;
+    margin-top: 1%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.product-card p {
+    font-family: 'Burbank Small Black', sans-serif;
+    font-size: 17px;
+    text-transform: uppercase;
+    color: #1260e1;
+}
+
+
+.product-card:hover {
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+    transform: scale(1.05);
+    transition: all 0.3s ease;
+}
+
+.product-img {
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 3%;
+}
+
+.product-img img {
+    width: 100%;
+    height: 100%;
+    scale: 102%;
+    object-fit: contain;
+}
+
+#modal-image {
+    width: 300px;
+    height: 300px;
+    flex-shrink: 0;
+    overflow: hidden;
+    border-radius: 20px;
+}
+
+#modal-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(46, 39, 39, 0.40);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 15px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 1000px;
+    display: flex;
+    gap: 30px;
+    will-change: transform;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+    width: 80%;
+}
+
+.modal-content.hide {
+    animation: exit-bottom 0.45s ease-in forwards !important;
+    will-change: transform, opacity;
+    position: absolute;
+    z-index: 1000;
+}
+
+.modal.show .modal-content {
+    animation: modal-squash 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.7) forwards;
+}
+
+.modal-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+.modal-info h2 {
+    font-size: 32px;
+    font-family: 'Burbank Big Regular Black', sans-serif;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 85%;
+    background-image: linear-gradient(180deg, #111c47, #087dd1);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.product-type {
+    font-size: 12px;
+    -webkit-text-fill-color: white;
+    background-color: #111c47;
+    padding: 4px 8px;
+    border-radius: 5px;
+    margin-top: 3px;
+    transition: transform 0.2s;
+    display: inline-block;
+}
+
+.modal-info p {
+    margin-top: 10px;
+}
+
+.modal-actions {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+
+.ajouter-panier-btn {
+    margin-top: 15px;
+    padding: 14px 30px;
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(347deg, #f2e004, #f7f06c);
+    font-size: 24px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 6px 12px #f7f06c9e;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.ajouter-panier-btn span {
+    background-image: linear-gradient(0deg, #425772, #110400);
+    font-family: 'Burbank Big Regular Black', 'Google Sans', sans-serif;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: bold;
+}
+
+.ajouter-panier-btn::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transform: rotate(45deg);
+    animation: shine 3s infinite;
+}
+
+.ajouter-panier-btn:hover {
+    background-image: linear-gradient(45deg, #f8ef66, #f8eb5e);
+}
+
+.ajouter-panier-btn:active {
+    transform: scale(0.9, 0.95);
+}
+
+.close {
+    position: absolute;
+    top: 15px;
+    right: 25px;
+    font-size: 28px;
+    cursor: pointer;
+}
+
+.buy-notification {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 55%;
+    background: linear-gradient(180deg, #2a3a4c 0%, #1a2635 100%);
+    border-radius: 20px;
+    padding: 25px;
+    color: #fff;
+    z-index: 2000;
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+}
+
+
+.notification-glow {
+    display: none;
+}
+
+.buy-notification::before {
+    display: none;
+}
+
+.overlay-blur {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(46, 39, 39, 0.40);
+    backdrop-filter: blur(8px);
+    z-index: 1999;
+}
+
+.quantity-selector {
+    display: flex;
+    gap: 15px;
+    flex-direction: column;
+}
+
+.quantity-controls {
+    display: flex;
+    align-items: center;
+}
+
+.quantity-btn {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: none;
+    background: #f2e004;
+    color: #425772;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#quantity {
+    width: 50px;
+    height: 30px;
+    text-align: center;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin: 0 10px;
+}
+
+.price-total {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+#total-price {
+    color: #1260E1;
+    font-size: 25px;
+    font-family: 'Burbank Big Regular', sans-serif;
+}
+
+.notification-text-top {
+    font-family: 'Burbank Big Regular Black', sans-serif;
+    font-size: 45px;
+    background: linear-gradient(180deg, #ebfbff, #a8d5e7);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-transform: uppercase;
+    text-align: center;
+    position: absolute;
+    opacity: 0.8;
+    top: -90px;
+    left: 0;
+    width: 100%;
+    white-space: nowrap;
+    overflow: visible;
+    line-height: 1.2;
+    padding-top: 5px;
+    pointer-events: none;
+}
+
+.notification-content {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.notification-price {
+    font-family: 'Burbank Big Regular Black', sans-serif;
+    font-size: 22px;
+    font-style: italic;
+    color: #f8eb5e;
+    margin-top: 8px;
+}
+
+.notification-info h3 {
+    font-size: 22px;
+    letter-spacing: 0.5px;
+    font-family: 'Burbank Big Regular Black', sans-serif;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+    color: #ffffff;
+}
+
+.notification-content img {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    padding: 5px;
+}
+
+#notification-desc {
+    font-family: "Burbank Small Light", sans-serif;
+}
+
+.buy-notification.show {
+    opacity: 1;
+    animation: popup-dezoom 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.7) forwards;
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.6);
+}
+
+.overlay-blur.show {
+    display: block;
+}
+
+@keyframes backgroundScroll {
+    0% {
+        background-position: 0 0;
+    }
+    100% {
+        background-position: -1000px 0px;
+    }
+}
+
+
+@media (max-width: 1180px) {
+    .product-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media (max-width: 950px) {
+    .product-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .product-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .modal-content {
+        flex-direction: column;
+        width: 85%;
+        height: 90%;
+    }
+
+    .modal-info {
+        flex: none;
+        width: 100%;
+    }
+
+    .quantity-selector {
+        flex-direction: column;
+    }
+
+    .modal-info h2 {
+        font-size: 28px;
+    }
+
+    .modal-actions {
+        width: 100%;
+    }
+
+    .buy-notification {
+        width: 80%;
+    }
+}
+
+@keyframes glow-pulse {
+    0% { box-shadow: 0 0 30px 5px rgba(255, 255, 255, 0.6); }
+    25% { box-shadow: 10px -10px 40px 10px rgba(255, 255, 255, 0.8); }
+    50% { box-shadow: 0 15px 30px 5px rgba(255, 255, 255, 0.5); }
+    75% { box-shadow: -10px -5px 40px 8px rgba(255, 255, 255, 0.7); }
+    100% { box-shadow: 0 0 30px 5px rgba(255, 255, 255, 0.6); }
+}
+
+.buy-notification.show {
+    opacity: 1;
+    animation:
+            popup-dezoom 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.7) forwards,
+            glow-pulse 4s infinite ease-in-out;
+}
+
+.buy-notification.hide {
+    animation: exit-bottom 0.4s ease-in forwards;
+}
+
+
+@keyframes modal-squash {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(1.15);
+    }
+    30% {
+        transform: translate(-50%, -50%) scale(0.8, 1.2);
+        opacity: 1;
+    }
+    70% {
+        transform: translate(-50%, -50%) scale(1.05, 0.95);
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+@keyframes popup-dezoom {
+    0% {
+        transform: translate(-50%, -50%) scale(1.5);
+        opacity: 0;
+    }
+    40% {
+        transform: translate(-50%, -50%) scale(0.8, 1.2);
+        opacity: 1;
+    }
+    65% {
+        transform: translate(-50%, -50%) scale(1.1, 0.9);
+    }
+    85% {
+        transform: translate(-50%, -50%) scale(0.95, 1.05);
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+@keyframes shine {
+    0% {
+        left: -100%;
+        top: -100%;
+    }
+    20%, 100% {
+        left: 100%;
+        top: 100%;
+    }
+}
+
+@keyframes exit-bottom {
+    0% {
+        transform: translate(-50%, -50%) scale(1);
+        transform-origin: bottom center;
+        opacity: 1;
+    }
+    15% {
+        transform: translate(-50%, -52%) scale(1.1, 0.95);
+        transform-origin: bottom center;
+        opacity: 1;
+    }
+    30% {
+        transform: translate(-50%, -48%) scale(1.04, 1.06);
+        transform-origin: bottom center;
+        opacity: 0.98;
+    }
+    50% {
+        transform: translate(-50%, -30%) scale(0.95, 0.97);
+        transform-origin: bottom center;
+        opacity: 0.9;
+    }
+    75% {
+        transform: translate(-50%, 20%) scale(0.7, 0.8);
+        transform-origin: bottom center;
+        opacity: 0.6;
+    }
+    100% {
+        transform: translate(-50%, 150%) scale(0.3, 0.6);
+        transform-origin: bottom center;
+        opacity: 0;
+    }
+}
