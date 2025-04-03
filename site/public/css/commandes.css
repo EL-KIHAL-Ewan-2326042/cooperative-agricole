@@ -9,12 +9,12 @@
 }
 
 .commande-container h1 {
-    color: #4CAF50;
+    color: #1260E1;
     margin-bottom: 30px;
     font-size: 3rem;
     text-align: center;
     text-transform: uppercase;
-    background-image: linear-gradient(135deg, #109c14, #4CAF50);
+    background-image: linear-gradient(180deg, #111c47, #075c99);;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     position: relative;
@@ -56,7 +56,7 @@
     left: 0;
     width: 100%;
     height: 8px;
-    background: linear-gradient(90deg, #4CAF50, #109c14);
+    background: linear-gradient(90deg, #111c47, #075c99);;
 }
 
 .commande-form:hover {
@@ -65,7 +65,7 @@
 }
 
 .commande-form h2 {
-    color: #4CAF50;
+    color: #1260E1;
     margin-bottom: 25px;
     font-size: 2rem;
     border-bottom: 2px solid #f0f0f0;
@@ -80,7 +80,7 @@
     left: 0;
     width: 80px;
     height: 2px;
-    background: #4CAF50;
+    background: #1260E1;
 }
 
 .form-group {
@@ -108,7 +108,7 @@
 }
 
 .form-group input:focus {
-    border-color: #4CAF50;
+    border-color: #1260E1;
     box-shadow: 0 0 0 4px rgba(76, 175, 80, 0.2);
     outline: none;
     background-color: #fff;
@@ -140,10 +140,10 @@
 }
 
 .payment-option.active {
-    border-color: #4CAF50;
-    background: rgba(76, 175, 80, 0.08);
+    border-color: #1260E1;
+    background: rgba(20, 109, 255, 0.1);
     transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(76, 175, 80, 0.15);
+    box-shadow: 0 10px 20px rgb(18 96 225 / 20%);
 }
 
 .payment-option.active::before {
@@ -153,7 +153,7 @@
     left: -2px;
     right: -2px;
     height: 6px;
-    background: #4CAF50;
+    background: #1260E1;
     border-radius: 3px 3px 0 0;
 }
 
@@ -235,7 +235,7 @@
     left: 0;
     width: 100%;
     height: 8px;
-    background: linear-gradient(90deg, #4CAF50, #109c14);
+    background: linear-gradient(90deg, #111c47, #075c99);;
 }
 
 .commande-recap:hover {
@@ -244,7 +244,7 @@
 }
 
 .commande-recap h2 {
-    color: #4CAF50;
+    color: #1260E1;
     margin-bottom: 25px;
     font-size: 2rem;
     border-bottom: 2px solid #f0f0f0;
@@ -259,7 +259,7 @@
     left: 0;
     width: 60px;
     height: 2px;
-    background: #4CAF50;
+    background: #1260E1;
 }
 
 .commande-item {
@@ -271,7 +271,7 @@
 }
 
 .commande-item:hover {
-    background-color: rgba(76, 175, 80, 0.05);
+    background-color: rgba(18, 96, 225, 0.04);
     transform: translateX(5px);
     border-radius: 10px;
     padding-left: 10px;
@@ -311,16 +311,16 @@
 
 .commande-item-prix {
     font-weight: bold;
-    color: #4CAF50;
+    color: #1260E1;
     font-size: 18px;
-    background: rgba(76, 175, 80, 0.1);
+    background: rgb(18 96 225 / 7%);
     padding: 8px 12px;
     border-radius: 10px;
     transition: all 0.3s ease;
 }
 
 .commande-item:hover .commande-item-prix {
-    background: rgba(76, 175, 80, 0.2);
+    background: rgba(58, 119, 211, 0.15);
     transform: scale(1.05);
 }
 
@@ -354,8 +354,8 @@
     font-weight: bold;
     margin-top: 15px;
     padding-top: 15px;
-    border-top: 2px dashed #4CAF50;
-    color: #4CAF50;
+    border-top: 2px dashed #1260E1;
+    color: #1260E1;
 }
 
 .confirmation-container {
@@ -385,16 +385,16 @@
     left: 0;
     width: 100%;
     height: 10px;
-    background: linear-gradient(90deg, #4CAF50, #109c14);
+    background: linear-gradient(90deg, #111c47, #075c99);;
 }
 
 .confirmation-message h1 {
-    color: #4CAF50;
+    color: #1260E1;
     font-family: 'Burbank Big Regular Black', sans-serif;
     font-size: 3rem;
     margin-bottom: 20px;
     text-transform: uppercase;
-    background-image: linear-gradient(180deg, #109c14, #4CAF50);
+    background-image: linear-gradient(180deg, #154eac, #1260E1);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }

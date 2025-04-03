@@ -1,4 +1,12 @@
 <?php
+/**
+ * Point d'entrée principal de l'application.
+ *
+ * Ce fichier gère les routes et appelle les contrôleurs appropriés en fonction de la route demandée.
+ *
+ * @package Application
+ */
+
 require_once 'config/config.php';
 
 $route = $_GET['route'] ?? 'home';
@@ -24,7 +32,7 @@ switch ($route) {
     case 'commande/validation':
         require_once 'controllers/CommandeController.php';
         $controller = new CommandeController();
-        $controller->validation();
+        $controller->valider();
         break;
     case 'commande/confirmation':
         require_once 'controllers/CommandeController.php';
@@ -35,6 +43,16 @@ switch ($route) {
         require_once 'controllers/CommandeController.php';
         $controller = new CommandeController();
         $controller->historique();
+        break;
+    case 'image_upload':
+        require_once 'controllers/ImageUploadController.php';
+        $controller = new ImageUploadController();
+        $controller->index();
+        break;
+    case 'image_upload/upload':
+        require_once 'controllers/ImageUploadController.php';
+        $controller = new ImageUploadController();
+        $controller->upload();
         break;
     default:
         header("HTTP/1.0 404 Not Found");

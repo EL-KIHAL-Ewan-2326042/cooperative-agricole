@@ -2,7 +2,7 @@
 ?>
 
 <main class="panier-container">
-    <h1>Votre panier</h1>
+    <h2>Votre panier</h2>
 
     <div id="panier-vide" class="panier-message">
         <img src="<?= BASE_URL ?>/public/media/panier-vide.png" alt="Panier vide">

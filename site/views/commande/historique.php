@@ -1,4 +1,9 @@
 <?php
+/**
+ * Page d'historique des commandes.
+ *
+ * @var string $commandesJson JSON des commandes passées.
+ */
 $commandesJson = $commandesJson ?? '[]';
 ?>
 
@@ -15,6 +20,9 @@ $commandesJson = $commandesJson ?? '[]';
         <a href="<?= BASE_URL ?>?route=home" class="retour-boutique-btn">Retourner à la boutique</a>
     </div>
     <script>
+        /**
+         * Liste des commandes en format JSON.
+         */
         const commandes = <?php echo $commandesJson; ?>;
     </script>
 </main>

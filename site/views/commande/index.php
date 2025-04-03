@@ -1,6 +1,9 @@
 <?php
-// site/views/commande/index.php
+/**
+ * Page de finalisation de commande.
+ */
 ?>
+
 <main class="commande-container">
     <h1>Finaliser votre commande</h1>
 
@@ -84,6 +87,9 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+        /**
+         * Récupère le panier depuis le stockage local et met à jour le récapitulatif de la commande.
+         */
         const panier = JSON.parse(localStorage.getItem('panier')) || [];
 
         // Redirection si panier vide

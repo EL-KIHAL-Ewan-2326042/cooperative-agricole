@@ -2,16 +2,26 @@
 require_once 'models/Produit.php';
 require_once 'services/ApiService.php';
 
+/**
+ * Classe ProduitService pour gérer les opérations liées aux produits.
+ */
 class ProduitService {
+    /**
+     * @var ApiService Service pour interagir avec l'API.
+     */
     private ApiService $apiService;
 
+    /**
+     * Constructeur de la classe ProduitService.
+     */
     public function __construct() {
         $this->apiService = new ApiService();
     }
 
     /**
-     * Get all products
-     * @return Produit[]
+     * Récupère tous les produits.
+     *
+     * @return Produit[] Liste des produits.
      */
     public function getAllProduits(): array {
         $apiProduits = $this->apiService->getProduits();
@@ -19,9 +29,10 @@ class ProduitService {
     }
 
     /**
-     * Get product by ID
-     * @param int $id Produit ID
-     * @return Produit|null
+     * Récupère un produit par son ID.
+     *
+     * @param int $id ID du produit.
+     * @return Produit|null Le produit ou null s'il n'existe pas.
      */
     public function getProduitById(int $id): ?Produit {
         $produitData = $this->apiService->getProduitById($id);
@@ -29,9 +40,10 @@ class ProduitService {
     }
 
     /**
-     * Search products by term
-     * @param string $term Search term
-     * @return Produit[]
+     * Recherche des produits par terme.
+     *
+     * @param string $term Terme de recherche.
+     * @return Produit[] Liste des produits correspondants.
      */
     public function searchProduits(string $term): array {
         $apiProduits = $this->apiService->searchProduits($term);
@@ -39,18 +51,20 @@ class ProduitService {
     }
 
     /**
-     * Get image URL for a product
-     * @param int $produitId Produit ID
-     * @return string
+     * Récupère l'URL de l'image d'un produit.
+     *
+     * @param int $produitId ID du produit.
+     * @return string URL de l'image du produit.
      */
     public function getImageUrl(int $produitId): string {
         return $this->apiService->getImageUrl($produitId);
     }
 
     /**
-     * Convert API data to Produit objects
-     * @param array $apiProduits API data
-     * @return Produit[]
+     * Convertit les données de l'API en objets Produit.
+     *
+     * @param array $apiProduits Données de l'API.
+     * @return Produit[] Liste des objets Produit.
      */
     private function convertApiProduitsToObjects(array $apiProduits): array {
         $produits = [];
@@ -61,9 +75,10 @@ class ProduitService {
     }
 
     /**
-     * Convert API data to Produit object
-     * @param array $produitData API data
-     * @return Produit
+     * Convertit les données de l'API en objet Produit.
+     *
+     * @param array $produitData Données de l'API.
+     * @return Produit L'objet Produit.
      */
     private function convertApiToProduit(array $produitData): Produit {
         $produit = new Produit($produitData);

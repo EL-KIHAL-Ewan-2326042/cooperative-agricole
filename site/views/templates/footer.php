@@ -1,3 +1,11 @@
+<?php
+/**
+ * Pied de page du site.
+ *
+ * @var array $jsFiles Liste des fichiers JavaScript à inclure.
+ */
+?>
+
 <footer>
     <p>© 2025 - Tous droits réservés</p>
 </footer>

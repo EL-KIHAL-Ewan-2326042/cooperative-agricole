@@ -5,12 +5,12 @@
 }
 
 .commandes-historique-container h1 {
-    color: #4CAF50;
+    color: #1260E1;
     margin-bottom: 30px;
     font-size: 3rem;
     text-align: center;
     text-transform: uppercase;
-    background-image: linear-gradient(135deg, #109c14, #4CAF50);
+    background-image: linear-gradient(180deg, #111c47, #075c99);;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     position: relative;
@@ -45,7 +45,7 @@
     left: 0;
     width: 100%;
     height: 6px;
-    background: linear-gradient(90deg, #4CAF50, #109c14);
+    background: linear-gradient(90deg, #111c47, #075c99);;
 }
 
 .commande-card:hover {
@@ -59,7 +59,7 @@
     align-items: center;
     margin-bottom: 20px;
     padding-bottom: 15px;
-    border-bottom: 2px dashed rgba(76, 175, 80, 0.3);
+    border-bottom: 2px dashed rgba(21, 88, 182, 0.37);
 }
 
 .commande-date {
@@ -69,8 +69,8 @@
 }
 
 .commande-status {
-    background: rgba(76, 175, 80, 0.15);
-    color: #4CAF50;
+    background: rgba(58, 119, 211, 0.15);
+    color: #1260E1;
     padding: 8px 15px;
     border-radius: 50px;
     font-weight: bold;
@@ -89,7 +89,7 @@
 }
 
 .commande-adresse h3, .commande-produits h3 {
-    color: #4CAF50;
+    color: #1260E1;
     margin-bottom: 15px;
     font-size: 18px;
 }
@@ -136,8 +136,8 @@
 }
 
 .commande-produit-prix {
-    background: rgba(76, 175, 80, 0.15);
-    color: #4CAF50;
+    background: rgba(58, 119, 211, 0.15);
+    color: #1260E1;
     padding: 8px 15px;
     border-radius: 12px;
     font-weight: bold;
@@ -156,7 +156,7 @@
 .commande-total {
     font-size: 22px;
     font-weight: bold;
-    color: #4CAF50;
+    color: #1260E1;
 }
 
 .commande-actions a {

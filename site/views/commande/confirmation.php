@@ -1,4 +1,7 @@
 <?php
+/**
+ * Page de confirmation de commande.
+ */
 ?>
 
 <main class="confirmation-container">
@@ -11,6 +14,9 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+        /**
+         * Lecture du son de confirmation.
+         */
         const confirmationSound = new Audio('/site/public/media/alert.mp3');
         confirmationSound.volume = 0.05;
         confirmationSound.play().catch(e => console.log("Erreur de lecture audio:", e));

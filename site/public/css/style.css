@@ -11,6 +11,10 @@
     --color-subtext: #29dbff;
 }
 
+h1 {
+    font-family: "Burbank Big Regular Black", sans-serif !important;
+}
+
 
 * {
     margin: 0;
@@ -116,7 +120,7 @@ main {
 }
 
 h2 {
-    color: #4CAF50;
+    color: #1260E1;
 }
 
 footer {
@@ -195,7 +199,7 @@ nav .panier-icon {
     font-family: 'Burbank Small Black', sans-serif;
     font-size: 17px;
     text-transform: uppercase;
-    color: #1481d0;
+    color: #1260e1;
 }
 
 
@@ -250,7 +254,7 @@ nav .panier-icon {
 .modal-content {
     background-color: #ffffff;
     padding: 30px;
-    border-radius: 33px;
+    border-radius: 15px;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -300,7 +304,7 @@ nav .panier-icon {
     -webkit-text-fill-color: white;
     background-color: #111c47;
     padding: 4px 8px;
-    border-radius: 20px;
+    border-radius: 5px;
     margin-top: 3px;
     transition: transform 0.2s;
     display: inline-block;
@@ -446,7 +450,7 @@ nav .panier-icon {
 }
 
 #total-price {
-    color: #4CAF50;
+    color: #1260E1;
     font-size: 25px;
     font-family: 'Burbank Big Regular', sans-serif;
 }

@@ -1,4 +1,11 @@
 <?php
+/**
+ * En-tête du site.
+ *
+ * @var string $route Route actuelle de l'application.
+ * @var string $pageTitle Titre de la page.
+ * @var array $cssFiles Liste des fichiers CSS à inclure.
+ */
 $route = $GLOBALS['route'] ?? '';
 ?>
 <!DOCTYPE html>
@@ -20,6 +27,7 @@ $route = $GLOBALS['route'] ?? '';
 <header>
     <h1><a href="<?= BASE_URL ?>?route=home">Anarchy Acres</a></h1>
     <nav>
+        <a class="image-upload-icon" href="<?= BASE_URL ?>?route=image_upload" <?= ($route === 'image_upload') ? 'class="active"' : '' ?>>Upload une image</a>
         <a class="panier-icon" href="<?= BASE_URL ?>?route=panier" <?= ($route === 'panier') ? 'class="active"' : '' ?>>Mon panier</a>
         <a class="login-icon" href="<?= BASE_URL ?>?route=profil">Connexion / Inscription</a>
     </nav>

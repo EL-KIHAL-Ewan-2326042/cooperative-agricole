@@ -1,8 +1,11 @@
 <?php
+/**
+ * Page d'accueil affichant les produits disponibles.
+ */
 ?>
 
 <main>
-    <h1>Nos produits</h1>
+    <h2>Nos produits</h2>
     <div class="product-grid">
         <?php if (isset($produitsArray) && is_array($produitsArray)): ?>
             <?php foreach ($produitsArray as $produit): ?>
@@ -59,6 +62,9 @@
     <div id="overlay-blur" class="overlay-blur"></div>
 
     <script>
+        /**
+         * Liste des produits en format JSON.
+         */
         const produits = <?= json_encode($produitsArray) ?>;
     </script>
 </main>
