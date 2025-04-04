@@ -17,13 +17,36 @@ import java.util.List;
 import cooperative.paniers.model.Panier;
 import cooperative.paniers.model.PanierProduit;
 
+/**
+ * Repository principal gérant les connexions à la base de données MariaDB et les opérations CRUD.
+ * Cette classe centralise toute la logique d'accès aux données et sert de point d'entrée
+ * pour les interactions avec la base de données.
+ */
 @ApplicationScoped
 public class DatabaseRepository {
 
+    /**
+     * URL de connexion à la base de données MariaDB incluant les paramètres de configuration.
+     */
     private static final String URL = "jdbc:mariadb://mysql-anarchy-acres.alwaysdata.net:3306/anarchy-acres_paniers?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&characterEncoding=UTF-8";
+
+    /**
+     * Identifiant utilisateur pour la connexion à la base de données.
+     */
     private static final String USER = "406080";
+
+    /**
+     * Mot de passe pour la connexion à la base de données.
+     */
     private static final String PASSWORD = "jpD73FM)Q-qSwe6";
 
+    /**
+     * Produit une instance de MariaDbRepository pour l'injection CDI.
+     * Cette méthode permet l'injection de la connexion dans d'autres composants.
+     *
+     * @return Une instance de MariaDbRepository configurée avec les paramètres de connexion,
+     *         ou null en cas d'échec de connexion
+     */
     @Produces
     public MariaDbRepository openDbConnection() {
         try {
@@ -35,6 +58,13 @@ public class DatabaseRepository {
         }
     }
 
+    /**
+     * Établit une connexion à la base de données MariaDB.
+     * Charge le pilote JDBC et ouvre une connexion avec les paramètres configurés.
+     *
+     * @return Une connexion active à la base de données
+     * @throws SQLException Si une erreur survient lors de la connexion ou si le pilote est introuvable
+     */
     public Connection getConnection() throws SQLException {
         try {
             Class.forName("org.mariadb.jdbc.Driver");
@@ -44,6 +74,15 @@ public class DatabaseRepository {
         }
     }
 
+    /**
+     * Recherche une entité par son identifiant dans la base de données.
+     * Actuellement implémenté uniquement pour la classe Panier.
+     *
+     * @param <T> Le type générique de l'entité à rechercher
+     * @param entityClass La classe de l'entité à rechercher
+     * @param id L'identifiant unique de l'entité
+     * @return L'entité trouvée ou null si aucune entité ne correspond à l'identifiant
+     */
     @SuppressWarnings("unchecked")
     public <T> T findById(Class<T> entityClass, Integer id) {
         try (Connection conn = getConnection()) {
@@ -67,6 +106,16 @@ public class DatabaseRepository {
         return null;
     }
 
+    /**
+     * Sauvegarde ou met à jour une entité dans la base de données.
+     * Utilise la clause SQL "ON DUPLICATE KEY UPDATE" pour gérer à la fois
+     * l'insertion et la mise à jour dans une seule opération.
+     * Supporte les entités Panier et PanierProduit.
+     *
+     * @param <T> Le type générique de l'entité à sauvegarder
+     * @param entity L'entité à sauvegarder ou mettre à jour
+     * @return L'entité sauvegardée
+     */
     @SuppressWarnings("unchecked")
     public <T> T save(T entity) {
         try (Connection conn = getConnection()) {
@@ -102,6 +151,15 @@ public class DatabaseRepository {
         return entity;
     }
 
+    /**
+     * Supprime une entité de la base de données par son identifiant.
+     * Détermine dynamiquement le nom de la table et la colonne d'identifiant
+     * en fonction de la classe d'entité fournie.
+     *
+     * @param <T> Le type générique de l'entité à supprimer
+     * @param entityClass La classe de l'entité à supprimer
+     * @param id L'identifiant unique de l'entité à supprimer
+     */
     public <T> void delete(Class<T> entityClass, Integer id) {
         try (Connection conn = getConnection()) {
             String tableName = entityClass.getSimpleName().toLowerCase();
@@ -121,17 +179,45 @@ public class DatabaseRepository {
         }
     }
 
+    /**
+     * Classe interne encapsulant les paramètres de connexion à la base de données MariaDB.
+     * Cette classe est utilisée pour l'injection de dépendances via CDI.
+     */
     public static class MariaDbRepository {
+        /**
+         * URL de connexion à la base de données.
+         */
         private final String url;
+
+        /**
+         * Nom d'utilisateur pour l'authentification.
+         */
         private final String username;
+
+        /**
+         * Mot de passe pour l'authentification.
+         */
         private final String password;
 
+        /**
+         * Constructeur initialisant les paramètres de connexion.
+         *
+         * @param url URL de connexion à la base de données MariaDB
+         * @param username Nom d'utilisateur pour l'authentification
+         * @param password Mot de passe pour l'authentification
+         */
         public MariaDbRepository(String url, String username, String password) {
             this.url = url;
             this.username = username;
             this.password = password;
         }
 
+        /**
+         * Établit une connexion à la base de données avec les paramètres configurés.
+         *
+         * @return Une connexion active à la base de données
+         * @throws SQLException Si une erreur survient lors de la connexion
+         */
         public Connection getConnection() throws SQLException {
             return DriverManager.getConnection(url, username, password);
         }
